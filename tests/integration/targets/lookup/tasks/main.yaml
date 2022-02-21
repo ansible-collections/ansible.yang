@@ -1,7 +1,7 @@
 ---
 - name: collect all netconf test cases
   find:
-    paths: '{{ role_path }}/tests/junos'
+    paths: '{{ role_path }}/tests'
     patterns: '{{ testcase }}.yaml'
   register: test_cases
   connection: local

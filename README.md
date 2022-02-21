@@ -50,6 +50,7 @@ You can also include it in a `requirements.yml` file and install it via `ansible
 ---
 collections:
   - name: ansible.yang
+  - name: community.yang
 ```
 
 ### Platforms test against

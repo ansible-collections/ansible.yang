@@ -13,32 +13,33 @@ is_py2 = sys.version[0] == "2"
 if is_py2:
     import Queue as queue
 else:
-    import queue as queue
+    import queue
 
 from ansible.module_utils._text import to_text
-from ansible.utils.display import Display
+from ansible.module_utils.connection import ConnectionError
 
 try:
-    import jxmlease
-    HAS_JXMLEASE = True
-except ImportError:
-    HAS_JXMLEASE = False
+    import xmltodict
 
-display = Display()
+    HAS_XMLTODICT = True
+except ImportError:
+    HAS_XMLTODICT = False
 
 
 class SchemaStore(object):
-    def __init__(self, conn):
+    def __init__(self, conn, debug=None):
         self._conn = conn
         self._schema_cache = []
         self._all_schema_list = None
+        self._all_schema_identifier_list = []
+        self._debug = debug
 
     def get_schema_description(self):
-        if not HAS_JXMLEASE:
+        if not HAS_XMLTODICT:
             raise ValueError(
-                "jxmlease is required to store response in json format "
+                "xmltodict is required to store response in json format "
                 "but does not appear to be installed. "
-                "It can be installed using `pip install jxmlease`"
+                "It can be installed using `pip install xmltodict`"
             )
 
         get_filter = """
@@ -53,7 +54,7 @@ class SchemaStore(object):
         except ConnectionError as e:
             raise ValueError(to_text(e))
 
-        res_json = jxmlease.parse(resp)
+        res_json = xmltodict.parse(resp, dict_constructor=dict)
         if "rpc-reply" in res_json:
             self._all_schema_list = res_json["rpc-reply"]["data"][
                 "netconf-state"
@@ -62,9 +63,12 @@ class SchemaStore(object):
             self._all_schema_list = res_json["data"]["netconf-state"][
                 "schemas"
             ]["schema"]
-        return
 
-    def get_one_schema(self, schema_id, result):
+        for index, schema_list in enumerate(self._all_schema_list):
+            self._all_schema_identifier_list.append(schema_list["identifier"])
+        return self._all_schema_identifier_list
+
+    def get_one_schema(self, schema_id, result, continue_on_error=False):
         if self._all_schema_list is None:
             self.get_schema_description()
 
@@ -76,11 +80,15 @@ class SchemaStore(object):
         schema_cache_entry = {}
         for index, schema_list in enumerate(self._all_schema_list):
             if schema_id == schema_list["identifier"]:
+                version = schema_list["version"]
                 found = True
                 break
 
-        if found:
-            content = "<identifier>%s</identifier>" % schema_id
+        if schema_id in self._all_schema_identifier_list:
+            content = "<identifier>%s</identifier><version>%s</version>" % (
+                schema_id,
+                version,
+            )
             xmlns = "urn:ietf:params:xml:ns:yang:ietf-netconf-monitoring"
             xml_request = '<%s xmlns="%s"> %s </%s>' % (
                 "get-schema",
@@ -92,30 +100,43 @@ class SchemaStore(object):
                 response = self._conn.dispatch(xml_request)
             except ConnectionError as e:
                 raise ValueError(to_text(e))
-            res_json = jxmlease.parse(response)
-            data_model = res_json["rpc-reply"]["data"]
-            display.vvv("Fetched '%s' yang model" % schema_id)
+            res_json = xmltodict.parse(response, dict_constructor=dict)
+            data_model = res_json["rpc-reply"]["data"]["#text"]
+            if self._debug:
+                self._debug("Fetched '%s' yang model" % schema_id)
             result["fetched"][schema_id] = data_model
             self._schema_cache.append(schema_cache_entry)
         else:
-            raise ValueError("Fail to fetch '%s' yang model" % schema_id)
+            if not continue_on_error:
+                raise ValueError("Fail to fetch '%s' yang model" % schema_id)
+            else:
+                if self._debug:
+                    self._debug("Fail to fetch '%s' yang model" % schema_id)
+                result["failed_yang_models"].append(schema_id)
 
         return found, data_model
 
-    def get_schema_and_dependants(self, schema_id, result):
+    def get_schema_and_dependants(
+        self, schema_id, result, continue_on_failure=False
+    ):
         try:
-            found, data_model = self.get_one_schema(schema_id, result)
+            found, data_model = self.get_one_schema(
+                schema_id, result, continue_on_failure
+            )
         except ValueError as exc:
             raise ValueError(exc)
 
         if found:
             result["fetched"][schema_id] = data_model
             importre = re.compile(r"import (.+) {")
-            return importre.findall(data_model)
+            all_found = importre.findall(data_model)
+            all_found = [re.sub("['\"]", "", imp) for imp in all_found]
+
+            return all_found
         else:
             return []
 
-    def run(self, schema_id, result):
+    def run(self, schema_id, result, continue_on_failure=False):
         changed = False
         counter = 1
         sq = queue.Queue()
@@ -127,7 +148,9 @@ class SchemaStore(object):
                 counter -= 1
                 continue
 
-            schema_dlist = self.get_schema_and_dependants(schema_id, result)
+            schema_dlist = self.get_schema_and_dependants(
+                schema_id, result, continue_on_failure
+            )
             for schema_id in schema_dlist:
                 if schema_id not in result["fetched"]:
                     sq.put(schema_id)
@@ -135,3 +158,4 @@ class SchemaStore(object):
                     counter += 1
 
         return changed, counter
+
