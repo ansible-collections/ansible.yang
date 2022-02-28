@@ -17,18 +17,18 @@ from ansible.module_utils._text import to_bytes, to_text
 from ansible.module_utils import basic
 from ansible.errors import AnsibleActionFail
 
-from ansible_collections.community.yang.plugins.module_utils.spec import (
+from ansible_collections.ansible.yang.plugins.module_utils.spec import (
     GenerateSpec,
 )
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.utils import (
     convert_doc_to_ansible_module_kwargs,
     dict_merge,
 )
-from ansible_collections.community.yang.plugins.common.base import (
+from ansible_collections.ansible.yang.plugins.common.base import (
     create_tmp_dir,
     YANG_SPEC_DIR_PATH,
 )
-from ansible_collections.community.yang.plugins.modules.generate_spec import (
+from ansible_collections.ansible.yang.plugins.modules.generate_spec import (
     DOCUMENTATION,
 )
 

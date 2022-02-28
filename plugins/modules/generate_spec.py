@@ -195,12 +195,12 @@ xml_schema:
 """
 EXAMPLES = """
 - name: generate spec from openconfig interface data and in result
-  community.yang.generate_spec:
+  ansible.yang.generate_spec:
     file: "openconfig/public/release/models/interfaces/openconfig-interfaces.yang"
     search_path: "{{ playbook_dir }}/openconfig/public/release/models:pyang/modules"
 
 - name: generate spec from openconfig interface config data and store it in file
-  community.yang.generate_spec:
+  ansible.yang.generate_spec:
     file: "openconfig/public/release/models/interfaces/openconfig-interfaces.yang"
     search_path: "{{ playbook_dir }}/openconfig/public/release/models:pyang/modules"
     doctype: config

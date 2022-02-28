@@ -18,17 +18,17 @@ from ansible.module_utils.connection import (
     ConnectionError as AnsibleConnectionError,
 )
 from ansible.errors import AnsibleActionFail
-from ansible_collections.community.yang.plugins.module_utils.translator import (
+from ansible_collections.ansible.yang.plugins.module_utils.translator import (
     Translator,
 )
 
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.utils import (
     convert_doc_to_ansible_module_kwargs,
 )
-from ansible_collections.community.yang.plugins.modules.get import (
+from ansible_collections.ansible.yang.plugins.modules.get import (
     DOCUMENTATION,
 )
-from ansible_collections.community.yang.plugins.common.base import (
+from ansible_collections.ansible.yang.plugins.common.base import (
     create_tmp_dir,
     XM2JSON_DIR_PATH,
 )

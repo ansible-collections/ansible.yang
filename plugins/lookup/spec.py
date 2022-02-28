@@ -61,13 +61,13 @@ DOCUMENTATION = """
 EXAMPLES = """
 - name: Get interface yang config spec without defaults
   set_fact:
-    interfaces_spec: "{{ lookup('community.yang.spec', 'openconfig/public/release/models/interfaces/openconfig-interfaces.yang',
+    interfaces_spec: "{{ lookup('ansible.yang.spec', 'openconfig/public/release/models/interfaces/openconfig-interfaces.yang',
                             search_path='openconfig/public/release/models:pyang/modules/', defaults=True,
                             doctype='data') }}"
 
 - name: Get interface yang spec with defaults and state data
   set_fact:
-    interfaces_spec: "{{ lookup('community.yang.spec', 'openconfig/public/release/models/interfaces/openconfig-interfaces.yang',
+    interfaces_spec: "{{ lookup('ansible.yang.spec', 'openconfig/public/release/models/interfaces/openconfig-interfaces.yang',
                             search_path='openconfig/public/release/models:pyang/modules/', defaults=True,
                             doctype='data') }}"
 """
@@ -186,10 +186,10 @@ import os
 from ansible.plugins.lookup import LookupBase
 from ansible.errors import AnsibleLookupError
 from ansible.module_utils._text import to_text
-from ansible_collections.community.yang.plugins.module_utils.spec import (
+from ansible_collections.ansible.yang.plugins.module_utils.spec import (
     GenerateSpec,
 )
-from ansible_collections.community.yang.plugins.common.base import (
+from ansible_collections.ansible.yang.plugins.common.base import (
     create_tmp_dir,
     YANG_SPEC_DIR_PATH,
 )

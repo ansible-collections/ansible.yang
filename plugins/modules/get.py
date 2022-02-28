@@ -115,7 +115,7 @@ xml_data:
 """
 EXAMPLES = """
 - name: fetch interface configuration and return it in JSON format
-  community.yang.get:
+  ansible.yang.get:
     filter: |
         <interface-configurations xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-ifmgr-cfg"><interface-configuration>
         </interface-configuration></interface-configurations>

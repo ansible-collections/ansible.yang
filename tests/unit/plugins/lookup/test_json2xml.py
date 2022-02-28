@@ -11,7 +11,7 @@ import os
 import unittest
 
 from ansible.errors import AnsibleLookupError
-from ansible_collections.community.yang.plugins.lookup.json2xml import (
+from ansible_collections.ansible.yang.plugins.lookup.json2xml import (
     LookupModule,
 )
 

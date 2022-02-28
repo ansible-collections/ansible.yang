@@ -1,8 +1,8 @@
-.. _community.yang.get_module:
+.. _ansible.yang.get_module:
 
 
 ******************
-community.yang.get
+ansible.yang.get
 ******************
 
 **Fetch the device configuration and render it in JSON format defined by RFC7951**
@@ -148,7 +148,7 @@ Examples
 .. code-block:: yaml
 
     - name: fetch interface configuration and return it in JSON format
-      community.yang.get:
+      ansible.yang.get:
         filter: |
             <interface-configurations xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-ifmgr-cfg"><interface-configuration>
             </interface-configuration></interface-configurations>

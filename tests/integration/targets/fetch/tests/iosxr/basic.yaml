@@ -1,9 +1,9 @@
 ---
-- debug: msg="START community.yang.fetch iosxr/basic.yaml on connection={{ ansible_connection
+- debug: msg="START ansible.yang.fetch iosxr/basic.yaml on connection={{ ansible_connection
     }}"
 
 - name: Fetch base and dependant openconfig-interfaces yang data models
-  community.yang.fetch:
+  ansible.yang.fetch:
       name: openconfig-interfaces
   register: result
 
@@ -17,7 +17,7 @@
           - "'openconfig-interfaces' in result.fetched"
 
 - name: Wrong yang name
-  community.yang.fetch:
+  ansible.yang.fetch:
       name: openconfig-interfacess
   ignore_errors: true
   register: result
@@ -28,7 +28,7 @@
           - "'Fail to fetch \\'openconfig-interfacess\\' yang model' in result.msg"
 
 - name: Fetch base and dependant openconfig-bgp yang data models
-  community.yang.fetch:
+  ansible.yang.fetch:
       name: openconfig-bgp
   register: result
 
@@ -48,7 +48,7 @@
           - "'openconfig-types' in result.fetched"
 
 - name: Test for supported_yang_modules in result
-  community.yang.fetch:
+  ansible.yang.fetch:
   register: result
 
 - assert:
@@ -56,7 +56,7 @@
           - "'supported_yang_modules' in result"
 
 - name: Fetch all the yang models supported by remote host and store it in dir location
-  community.yang.fetch:
+  ansible.yang.fetch:
       name: all
       dir: "/tmp/yang_files"
   register: result
@@ -77,6 +77,6 @@
       that:
           - "result.stdout_lines | length > 300"
 
-- debug: msg="END community.yang.fetch iosxr/basic.yaml on connection={{ ansible_connection
+- debug: msg="END ansible.yang.fetch iosxr/basic.yaml on connection={{ ansible_connection
     }}"
 
