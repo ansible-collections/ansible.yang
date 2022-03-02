@@ -1,0 +1,22 @@
+name: ansible_tests
+
+on:
+  push:  # only publishes pushes to the main branch to TestPyPI
+    branches:  # any integration branch but not tag
+      - "main"
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    steps:
+      - name: Perform sanity testing with ansible-test
+        uses: ansible-community/ansible-test-gh-action@release/v1
+        with:
+          python-version: 3.6
+          target-python-version: 3.6  
+          ansible-core-version: stable-2.11
+          testing-type: sanity
