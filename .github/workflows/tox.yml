@@ -3,7 +3,8 @@ name: ansible_tests
 on:
   push:  # only publishes pushes to the main branch to TestPyPI
     branches:  # any integration branch but not tag
-      - "main"
+      # - "main"
+      - "add_integration_test"
   pull_request:
 
 jobs:
