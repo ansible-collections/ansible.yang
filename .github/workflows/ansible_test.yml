@@ -12,8 +12,8 @@ jobs:
       matrix:
         os: [ubuntu-latest]
     steps:
-      - name: Install Python dependencies
-        uses: py-actions/py-dependency-install@v3
+#       - name: Install Python dependencies
+#         uses: py-actions/py-dependency-install@v3
         
       - name: Perform unit testing with ansible-test for python36
         uses: ansible-community/ansible-test-gh-action@release/v1
