@@ -1,0 +1,28 @@
+name: ansible_test
+on:
+  push:  # only publishes pushes to the main branch to TestPyPI
+    branches:  # any integration branch but not tag
+      - "main"
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    steps:
+      - name: Install Python dependencies
+        uses: py-actions/py-dependency-install@v3
+        
+      - name: Perform unit testing with ansible-test for python36
+        uses: ansible-community/ansible-test-gh-action@release/v1
+        with:
+          ansible-core-version: stable-2.11
+          pre-test-cmd: echo This runs before the ansible-test invocation
+          python-version: 3.6
+          target-python-version: 3.6
+          testing-type: units
+          test-deps: >-
+            ansible.netcommon
+            ansible.utils
