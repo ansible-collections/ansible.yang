@@ -21,7 +21,7 @@ jobs:
           path: test-requirements.txt
         
       - name: Perform unit testing with ansible-test for python36
-        uses: ansible-community/ansible-test-gh-action@release/v1
+        uses: rohitthakur2590/ansible-test-gh-action@release/main
         with:
           ansible-core-version: stable-2.11
           pre-test-cmd: pip install -r test-requirements.txt
