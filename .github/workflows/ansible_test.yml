@@ -24,7 +24,7 @@ jobs:
         uses: ansible-community/ansible-test-gh-action@release/v1
         with:
           ansible-core-version: stable-2.11
-          pre-test-cmd: echo This runs before the ansible-test invocation
+          pre-test-cmd: pip install -r test-requirements.txt
           python-version: 3.6
           target-python-version: 3.6
           testing-type: units
