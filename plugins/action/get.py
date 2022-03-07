@@ -107,6 +107,7 @@ class ActionModule(ActionBase):
             return self._result
         result = super(ActionModule, self).run(tmp, task_vars)
 
+        # read the files and search_path
         yang_files = self._task.args.get("file", [])
         search_path = self._task.args.get("search_path")
 
