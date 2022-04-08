@@ -153,7 +153,7 @@ class GenerateSpec(object):
                     ignore_errors=True,
                 )
             raise ValueError(
-                "Error while generating skeleton xml file: %s" % e.output
+                "Error while generating skeletons xml file: %s" % e.output
             )
         finally:
             err = sys.stdout.getvalue()
