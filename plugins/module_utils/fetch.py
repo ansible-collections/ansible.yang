@@ -158,4 +158,3 @@ class SchemaStore(object):
                     counter += 1
 
         return changed, counter
-

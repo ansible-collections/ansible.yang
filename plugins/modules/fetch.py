@@ -89,4 +89,3 @@ EXAMPLES = """
     dir: "{{ playbook_dir }}/yang_files"
     continue_on_failure: true
 """
-

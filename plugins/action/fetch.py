@@ -99,7 +99,6 @@ class ActionModule(ActionBase):
 
         result = super(ActionModule, self).run(tmp, task_vars)
 
-
         schema = self._task.args.get("name")
         dir_path = self._task.args.get("dir")
         continue_on_failure = self._task.args.get("continue_on_failure", False)

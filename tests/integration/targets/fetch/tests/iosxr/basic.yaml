@@ -79,4 +79,3 @@
 
 - debug: msg="END ansible.yang.fetch iosxr/basic.yaml on connection={{ ansible_connection
     }}"
-
