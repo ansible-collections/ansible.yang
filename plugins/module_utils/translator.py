@@ -272,7 +272,7 @@ class Translator(object):
         :param xml_data: XML data or file path containing xml data that should to translated to JSON
         :param tmp_dir_path: Temporary directory path to copy intermediate files
         :return: data in JSON format.
-    """
+        """
 
         try:
             etree.fromstring(xml_data)

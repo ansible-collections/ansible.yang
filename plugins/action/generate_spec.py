@@ -41,8 +41,7 @@ VALID_CONNECTION_TYPES = ["ansible.netcommon.netconf"]
 
 
 def generate_argspec():
-    """ Generate an argspec
-    """
+    """Generate an argspec"""
     argspec = convert_doc_to_ansible_module_kwargs(DOCUMENTATION)
     argspec = dict_merge(argspec, ARGSPEC_CONDITIONALS)
     return argspec
@@ -54,7 +53,7 @@ class ActionModule(ActionBase):
         self._result = {}
 
     def _fail_json(self, msg):
-        """ Replace the AnsibleModule fai_json here
+        """Replace the AnsibleModule fai_json here
         :param msg: The message for the failure
         :type msg: str
         """
@@ -73,7 +72,7 @@ class ActionModule(ActionBase):
         self._display.vvvv(msg)
 
     def _check_argspec(self):
-        """ Load the doc and convert
+        """Load the doc and convert
         Add the root conditionals to what was returned from the conversion
         and instantiate an AnsibleModule to validate
         """
@@ -85,7 +84,7 @@ class ActionModule(ActionBase):
         basic.AnsibleModule(**argspec)
 
     def _extended_check_argspec(self):
-        """ Check additional requirements for the argspec
+        """Check additional requirements for the argspec
         that cannot be covered using stnd techniques
         """
         errors = []
