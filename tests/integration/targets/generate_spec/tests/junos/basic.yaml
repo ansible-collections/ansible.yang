@@ -1,6 +1,27 @@
 ---
 - debug: msg="START ansible.yang.generate_spec junos/basic.yaml on connection={{ ansible_connection
     }}"
+- set_fact:
+    expected_xml_output: "<?xml version='1.0' encoding='UTF-8'?>\n<config xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\"/>\n"
+- set_fact:
+    expected_tree_output: "module: ietf-netconf\n\n  rpcs:\n    +---x get-config\n    |  +---w input\n    |  |  +---w source\n    |  |  |  +---w (config-source)\n    |  |  |     +--:(candidate)\n    |  |  |     |  +---w candidate?   empty {candidate}?\n    |  |  |     +--:(running)\n    |  |  |     |  +---w running?     empty\n    |  |  |     +--:(startup)\n    |  |  |        +---w startup?     empty {startup}?\n    |  |  +---w filter?   <anyxml>\n    |  +--ro output\n    |     +--ro data?   <anyxml>\n    +---x edit-config\n    |  +---w input\n    |     +---w target\n    |     |  +---w (config-target)\n    |     |     +--:(candidate)\n    |     |     |  +---w candidate?   empty {candidate}?\n    |     |     +--:(running)\n    |     |        +---w running?     empty {writable-running}?\n    |     +---w default-operation?   enumeration\n    |     +---w test-option?         enumeration {validate}?\n    |     +---w error-option?        enumeration\n    |     +---w (edit-content)\n    |        +--:(config)\n    |        |  +---w config?        <anyxml>\n    |        +--:(url)\n    |           +---w url?           inet:uri {url}?\n    +---x copy-config\n    |  +---w input\n    |     +---w target\n    |     |  +---w (config-target)\n    |     |     +--:(candidate)\n    |     |     |  +---w candidate?   empty {candidate}?\n    |     |     +--:(running)\n    |     |     |  +---w running?     empty {writable-running}?\n    |     |     +--:(startup)\n    |     |     |  +---w startup?     empty {startup}?\n    |     |     +--:(url)\n    |     |        +---w url?         inet:uri {url}?\n    |     +---w source\n    |        +---w (config-source)\n    |           +--:(candidate)\n    |           |  +---w candidate?   empty {candidate}?\n    |           +--:(running)\n    |           |  +---w running?     empty\n    |           +--:(startup)\n    |           |  +---w startup?     empty {startup}?\n    |           +--:(url)\n    |           |  +---w url?         inet:uri {url}?\n    |           +--:(config)\n    |              +---w config?      <anyxml>\n    +---x delete-config\n    |  +---w input\n    |     +---w target\n    |        +---w (config-target)\n    |           +--:(startup)\n    |           |  +---w startup?   empty {startup}?\n    |           +--:(url)\n    |              +---w url?       inet:uri {url}?\n    +---x lock\n    |  +---w input\n    |     +---w target\n    |        +---w (config-target)\n    |           +--:(candidate)\n    |           |  +---w candidate?   empty {candidate}?\n    |           +--:(running)\n    |           |  +---w running?     empty\n    |           +--:(startup)\n    |              +---w startup?     empty {startup}?\n    +---x unlock\n    |  +---w input\n    |     +---w target\n    |        +---w (config-target)\n    |           +--:(candidate)\n    |           |  +---w candidate?   empty {candidate}?\n    |           +--:(running)\n    |           |  +---w running?     empty\n    |           +--:(startup)\n    |              +---w startup?     empty {startup}?\n    +---x get\n    |  +---w input\n    |  |  +---w filter?   <anyxml>\n    |  +--ro output\n    |     +--ro data?   <anyxml>\n    +---x close-session\n    +---x kill-session\n    |  +---w input\n    |     +---w session-id    session-id-type\n    +---x commit {candidate}?\n    |  +---w input\n    |     +---w confirmed?         empty {confirmed-commit}?\n    |     +---w confirm-timeout?   uint32 {confirmed-commit}?\n    |     +---w persist?           string {confirmed-commit}?\n    |     +---w persist-id?        string {confirmed-commit}?\n    +---x discard-changes {candidate}?\n    +---x cancel-commit {confirmed-commit}?\n    |  +---w input\n    |     +---w persist-id?   string\n    +---x validate {validate}?\n       +---w input\n          +---w source\n             +---w (config-source)\n                +--:(candidate)\n                |  +---w candidate?   empty {candidate}?\n                +--:(running)\n                |  +---w running?     empty\n                +--:(startup)\n                |  +---w startup?     empty {startup}?\n                +--:(url)\n                |  +---w url?         inet:uri {url}?\n                +--:(config)\n                   +---w config?      <anyxml>\n"
+
+- name: generate spec from openconfig interface config data and store it in file
+  ansible.yang.generate_spec:
+    file: "{{ spec_yang_file }}"
+    search_path: "{{ spec_search_path }}"
+    doctype: config
+  register: result
+
+- name: Assert that correct xml_schema generated
+  assert:
+    that:
+      - "{{ expected_xml_output == result['xml_schema'] }}"
+
+- name: Assert that correct tree schema generated
+  assert:
+    that:
+      - "{{ expected_tree_output == result['tree_schema'] }}"
 
 - debug: msg="END ansible.yang.generate_spec junos/basic.yaml on connection={{ ansible_connection
     }}"

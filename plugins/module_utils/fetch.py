@@ -101,7 +101,10 @@ class SchemaStore(object):
             except ConnectionError as e:
                 raise ValueError(to_text(e))
             res_json = xmltodict.parse(response, dict_constructor=dict)
-            data_model = res_json["rpc-reply"]["data"]["#text"]
+            if "#text" in res_json["rpc-reply"]["data"]:
+                data_model = res_json["rpc-reply"]["data"]["#text"]
+            else:
+                data_model = res_json["rpc-reply"]["data"]
             if self._debug:
                 self._debug("Fetched '%s' yang model" % schema_id)
             result["fetched"][schema_id] = data_model
