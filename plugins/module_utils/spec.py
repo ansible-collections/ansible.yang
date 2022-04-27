@@ -20,7 +20,7 @@ from copy import deepcopy
 from ansible.module_utils.six import StringIO
 from ansible.module_utils.basic import missing_required_lib
 
-from ansible_collections.community.yang.plugins.module_utils.common import (
+from ansible_collections.ansible.yang.plugins.module_utils.common import (
     find_file_in_path,
     to_list,
 )

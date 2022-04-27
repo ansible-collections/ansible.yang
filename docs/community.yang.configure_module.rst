@@ -1,8 +1,8 @@
-.. _community.yang.configure_module:
+.. _ansible.yang.configure_module:
 
 
 ************************
-community.yang.configure
+ansible.yang.configure
 ************************
 
 **Reads the input configuration in JSON format and pushes to the remote host over netconf**
@@ -433,7 +433,7 @@ Examples
 .. code-block:: yaml
 
     - name: configure interface using structured data in JSON format
-      community.yang.configure:
+      ansible.yang.configure:
         config:
             {
                 "openconfig-interfaces:interfaces":
@@ -456,7 +456,7 @@ Examples
         search_path: "{{ playbook_dir }}/public/release/models"
 
     - name: configure by reading data from file and ensure idempotent task run
-      community.yang.configure:
+      ansible.yang.configure:
         config: "{{ lookup('file', 'interfaces-config.json') }}"
         get_filter: |
             <interface-configurations xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-ifmgr-cfg"><interface-configuration>
@@ -465,13 +465,13 @@ Examples
         search_path: "{{ playbook_dir }}/public/release/models"
 
     - name: Configure native data to running-config
-      community.yang.configure:
+      ansible.yang.configure:
         config: "{{ candidate['json_data'] }}"
         file: "{{ yang_file }}"
         search_path: "{{ search_path }}"
 
     - name: Netconf options
-      community.yang.configure:
+      ansible.yang.configure:
         config: "{{ lookup('file', 'interfaces-config.json') }}"
         file: "{{ playbook_dir }}/public/release/models/interfaces/openconfig-interfaces.yang"
         search_path: "{{ playbook_dir }}/public/release/models"

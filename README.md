@@ -15,7 +15,7 @@ PEP440 is the schema used to describe the versions of Ansible.
 <!--end requires_ansible-->
 
 ### Supported connections
-The Community yang collection supports ``netconf`` connections.
+The Ansible yang collection supports ``netconf`` connections.
 
 ## Included content
 <!--start collection content-->
@@ -40,7 +40,7 @@ Name | Description
 
 ### Installing the Collection from Ansible Galaxy
 
-Before using the Community Yang collection, you need to install it with the `ansible-galaxy` CLI:
+Before using the Ansible Yang collection, you need to install it with the `ansible-galaxy` CLI:
 
     ansible-galaxy collection install ansible.yang
 
@@ -50,7 +50,6 @@ You can also include it in a `requirements.yml` file and install it via `ansible
 ---
 collections:
   - name: ansible.yang
-  - name: community.yang
 ```
 
 ### Platforms test against

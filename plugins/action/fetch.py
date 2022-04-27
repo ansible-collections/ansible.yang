@@ -18,14 +18,14 @@ from ansible.module_utils._text import to_text, to_bytes
 from ansible.module_utils.connection import Connection
 from ansible.module_utils.six import iteritems
 from ansible.utils.path import unfrackpath, makedirs_safe
-from ansible_collections.community.yang.plugins.module_utils.fetch import (
+from ansible_collections.ansible.yang.plugins.module_utils.fetch import (
     SchemaStore,
 )
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.utils import (
     convert_doc_to_ansible_module_kwargs,
     dict_merge,
 )
-from ansible_collections.community.yang.plugins.modules.fetch import (
+from ansible_collections.ansible.yang.plugins.modules.fetch import (
     DOCUMENTATION,
 )
 
@@ -35,8 +35,7 @@ VALID_CONNECTION_TYPES = ["ansible.netcommon.netconf"]
 
 
 def generate_argspec():
-    """ Generate an argspec
-    """
+    """Generate an argspec"""
     argspec = convert_doc_to_ansible_module_kwargs(DOCUMENTATION)
     argspec = dict_merge(argspec, ARGSPEC_CONDITIONALS)
     return argspec
@@ -48,7 +47,7 @@ class ActionModule(ActionBase):
         self._result = {}
 
     def _fail_json(self, msg):
-        """ Replace the AnsibleModule fai_json here
+        """Replace the AnsibleModule fai_json here
         :param msg: The message for the failure
         :type msg: str
         """
@@ -67,7 +66,7 @@ class ActionModule(ActionBase):
         self._display.vvvv(msg)
 
     def _check_argspec(self):
-        """ Load the doc and convert
+        """Load the doc and convert
         Add the root conditionals to what was returned from the conversion
         and instantiate an AnsibleModule to validate
         """
@@ -98,7 +97,6 @@ class ActionModule(ActionBase):
             task_vars = dict()
 
         result = super(ActionModule, self).run(tmp, task_vars)
-
 
         schema = self._task.args.get("name")
         dir_path = self._task.args.get("dir")

@@ -21,7 +21,7 @@ from ansible.module_utils.basic import missing_required_lib
 from ansible.module_utils._text import to_text
 from ansible.module_utils.six import StringIO
 
-from ansible_collections.community.yang.plugins.module_utils.common import (
+from ansible_collections.ansible.yang.plugins.module_utils.common import (
     load_from_source,
     find_file_in_path,
     find_share_path,
@@ -272,7 +272,7 @@ class Translator(object):
         :param xml_data: XML data or file path containing xml data that should to translated to JSON
         :param tmp_dir_path: Temporary directory path to copy intermediate files
         :return: data in JSON format.
-    """
+        """
 
         try:
             etree.fromstring(xml_data)

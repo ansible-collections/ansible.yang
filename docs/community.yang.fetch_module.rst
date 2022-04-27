@@ -1,8 +1,8 @@
-.. _community.yang.fetch_module:
+.. _ansible.yang.fetch_module:
 
 
 ********************
-community.yang.fetch
+ansible.yang.fetch
 ********************
 
 **Fetch given yang model and it's dependencies**
@@ -109,22 +109,22 @@ Examples
 .. code-block:: yaml
 
     - name: Fetch given yang model from remote host
-      community.yang.fetch:
+      ansible.yang.fetch:
         name: "{{ item }}"
       loop:
         - openconfig-interface
         - openconfig-bgp
 
     - name: Fetch list of supported yang model names
-      community.yang.fetch:
+      ansible.yang.fetch:
 
     - name: Fetch all the yang models supported by remote host and store it in dir location
-      community.yang.fetch:
+      ansible.yang.fetch:
         name: all
         dir: "{{ playbook_dir }}/yang_files"
 
     - name: Fetch all the yang models supported by remote host and store it in dir location do not stop on error
-      community.yang.fetch:
+      ansible.yang.fetch:
         name: all
         dir: "{{ playbook_dir }}/yang_files"
         continue_on_failure: true

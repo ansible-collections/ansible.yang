@@ -46,7 +46,7 @@ options:
 
 EXAMPLES = """
 - name: translate json to xml
-  debug: msg="{{ lookup('community.yang.xml2json', interfaces_config.xml,
+  debug: msg="{{ lookup('ansible.yang.xml2json', interfaces_config.xml,
                          yang_file='openconfig/public/release/models/interfaces/openconfig-interfaces.yang',
                          search_path='openconfig/public/release/models:pyang/modules/') }}"
 """
@@ -61,11 +61,11 @@ from ansible.errors import AnsibleLookupError
 from ansible.module_utils.six import raise_from
 from ansible.module_utils._text import to_text
 
-from ansible_collections.community.yang.plugins.module_utils.translator import (
+from ansible_collections.ansible.yang.plugins.module_utils.translator import (
     Translator,
 )
 
-from ansible_collections.community.yang.plugins.common.base import (
+from ansible_collections.ansible.yang.plugins.common.base import (
     create_tmp_dir,
     XM2JSON_DIR_PATH,
 )

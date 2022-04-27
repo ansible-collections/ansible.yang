@@ -1,8 +1,8 @@
-.. _community.yang.generate_spec_module:
+.. _ansible.yang.generate_spec_module:
 
 
 ****************************
-community.yang.generate_spec
+ansible.yang.generate_spec
 ****************************
 
 **Generate JSON/XML schema and tree representation for given YANG model**
@@ -280,12 +280,12 @@ Examples
 .. code-block:: yaml
 
     - name: generate spec from openconfig interface data and in result
-      community.yang.generate_spec:
+      ansible.yang.generate_spec:
         file: "openconfig/public/release/models/interfaces/openconfig-interfaces.yang"
         search_path: "{{ playbook_dir }}/openconfig/public/release/models:pyang/modules"
 
     - name: generate spec from openconfig interface config data and store it in file
-      community.yang.generate_spec:
+      ansible.yang.generate_spec:
         file: "openconfig/public/release/models/interfaces/openconfig-interfaces.yang"
         search_path: "{{ playbook_dir }}/openconfig/public/release/models:pyang/modules"
         doctype: config

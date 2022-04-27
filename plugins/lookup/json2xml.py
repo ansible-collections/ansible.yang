@@ -68,7 +68,7 @@ from ansible.module_utils.six import raise_from
 from ansible.module_utils._text import to_text
 from ansible.errors import AnsibleLookupError
 
-from ansible_collections.community.yang.plugins.module_utils.translator import (
+from ansible_collections.ansible.yang.plugins.module_utils.translator import (
     Translator,
 )
 
@@ -82,7 +82,7 @@ else:
 
 from ansible.utils.display import Display
 
-from ansible_collections.community.yang.plugins.common.base import (
+from ansible_collections.ansible.yang.plugins.common.base import (
     create_tmp_dir,
     JSON2XML_DIR_PATH,
 )

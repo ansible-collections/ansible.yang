@@ -1,8 +1,8 @@
-.. _community.yang.json2xml_lookup:
+.. _ansible.yang.json2xml_lookup:
 
 
 ***********************
-community.yang.json2xml
+ansible.yang.json2xml
 ***********************
 
 **Validates json configuration against yang data model and convert it to xml.**

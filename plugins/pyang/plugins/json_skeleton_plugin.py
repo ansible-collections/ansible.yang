@@ -59,8 +59,7 @@ class SampleJSONSkeletonPlugin(plugin.PyangPlugin):
         ctx.implicit_errors = False
 
     def emit(self, ctx, modules, fd):
-        """Main control function.
-        """
+        """Main control function."""
         for (epos, etag, eargs) in ctx.errors:
             if error.is_error(error.err_level(etag)):
                 raise error.EmitError(
@@ -79,8 +78,7 @@ class SampleJSONSkeletonPlugin(plugin.PyangPlugin):
         json.dump(tree, fd, indent=4)
 
     def process_children(self, node, parent, pmod):
-        """Process all children of `node`, except "rpc" and "notification".
-        """
+        """Process all children of `node`, except "rpc" and "notification"."""
         for ch in node.i_children:
             if self.doctype == "config" and not ch.i_config:
                 continue

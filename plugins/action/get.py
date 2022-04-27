@@ -18,17 +18,17 @@ from ansible.module_utils.connection import (
     ConnectionError as AnsibleConnectionError,
 )
 from ansible.errors import AnsibleActionFail
-from ansible_collections.community.yang.plugins.module_utils.translator import (
+from ansible_collections.ansible.yang.plugins.module_utils.translator import (
     Translator,
 )
 
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.utils import (
     convert_doc_to_ansible_module_kwargs,
 )
-from ansible_collections.community.yang.plugins.modules.get import (
+from ansible_collections.ansible.yang.plugins.modules.get import (
     DOCUMENTATION,
 )
-from ansible_collections.community.yang.plugins.common.base import (
+from ansible_collections.ansible.yang.plugins.common.base import (
     create_tmp_dir,
     XM2JSON_DIR_PATH,
 )
@@ -42,7 +42,7 @@ class ActionModule(ActionBase):
         self._result = {}
 
     def _fail_json(self, msg):
-        """ Replace the AnsibleModule fail_json here
+        """Replace the AnsibleModule fail_json here
         :param msg: The message for the failure
         :type msg: str
         """
@@ -61,7 +61,7 @@ class ActionModule(ActionBase):
         self._display.vvvv(msg)
 
     def _check_argspec(self):
-        """ Load the doc and convert
+        """Load the doc and convert
         Add the root conditionals to what was returned from the conversion
         and instantiate an AnsibleModule to validate
         """
@@ -73,7 +73,7 @@ class ActionModule(ActionBase):
         basic.AnsibleModule(**argspec)
 
     def _extended_check_argspec(self):
-        """ Check additional requirements for the argspec
+        """Check additional requirements for the argspec
         that cannot be covered using stnd techniques
         """
         errors = []
@@ -107,6 +107,7 @@ class ActionModule(ActionBase):
             return self._result
         result = super(ActionModule, self).run(tmp, task_vars)
 
+        # read the files and search_path
         yang_files = self._task.args.get("file", [])
         search_path = self._task.args.get("search_path")
 

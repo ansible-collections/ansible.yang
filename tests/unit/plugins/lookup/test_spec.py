@@ -11,7 +11,7 @@ import os
 import unittest
 
 from ansible.errors import AnsibleLookupError
-from ansible_collections.community.yang.plugins.lookup.spec import LookupModule
+from ansible_collections.ansible.yang.plugins.lookup.spec import LookupModule
 
 YANG_FILE_SEARCH_PATH = os.path.join(
     os.path.dirname(os.path.abspath(__file__)), "../../../fixtures/files"

@@ -1,8 +1,8 @@
-.. _community.yang.xml2json_lookup:
+.. _ansible.yang.xml2json_lookup:
 
 
 ***********************
-community.yang.xml2json
+ansible.yang.xml2json
 ***********************
 
 **Converts xml input to json structure output by mapping it against corresponding Yang model**
@@ -119,7 +119,7 @@ Examples
 .. code-block:: yaml
 
     - name: translate json to xml
-      debug: msg="{{ lookup('community.yang.xml2json', interfaces_config.xml,
+      debug: msg="{{ lookup('ansible.yang.xml2json', interfaces_config.xml,
                              yang_file='openconfig/public/release/models/interfaces/openconfig-interfaces.yang',
                              search_path='openconfig/public/release/models:pyang/modules/') }}"
 
