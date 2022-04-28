@@ -1,3 +1,0 @@
----
-major_changes:
-  - Add modules get, fetch, configure, generate_spec to ansible.yang collections.
