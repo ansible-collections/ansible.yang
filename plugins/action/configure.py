@@ -143,7 +143,7 @@ class ActionModule(ActionBase):
             and self._connection.socket_path is not None
         ):
             raise AnsibleConnectionError(
-                "netconf connection to remote host in not active"
+                "netconf connection to remote host in not active dnm"
             )
 
         try:
