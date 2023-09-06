@@ -39,20 +39,14 @@ class TestValidate(unittest.TestCase):
         # missing required arguments
         kwargs = {}
         with self.assertRaises(AnsibleLookupError) as error:
-            self._lp.run(
-                [OC_INTF_XML_CONFIG_FILE_PATH], LOOKUP_VARIABLES, **kwargs
-            )
-        self.assertIn(
-            "value of 'yang_file' must be specified", str(error.exception)
-        )
+            self._lp.run([OC_INTF_XML_CONFIG_FILE_PATH], LOOKUP_VARIABLES, **kwargs)
+        self.assertIn("value of 'yang_file' must be specified", str(error.exception))
 
         # invalid json file value arguments
         kwargs = {"yang_file": OC_INTF_XML_CONFIG_FILE_PATH}
         with self.assertRaises(AnsibleLookupError) as error:
             self._lp.run(["invalid path"], LOOKUP_VARIABLES, **kwargs)
-        self.assertIn(
-            "Unable to create file or read XML data", str(error.exception)
-        )
+        self.assertIn("Unable to create file or read XML data", str(error.exception))
 
     def test_valid_xml2json_data(self):
         """Check passing valid data as per criteria"""
@@ -65,20 +59,18 @@ class TestValidate(unittest.TestCase):
         }
         result = self._lp.run(terms, variables, **kwargs)
         self.assertEqual(
-            result[0]["openconfig-interfaces:interfaces"]["interface"][0][
-                "name"
-            ],
+            result[0]["openconfig-interfaces:interfaces"]["interface"][0]["name"],
             "GigabitEthernet0/0/0/2",
         )
         self.assertEqual(
-            result[0]["openconfig-interfaces:interfaces"]["interface"][0][
-                "config"
-            ]["mtu"],
+            result[0]["openconfig-interfaces:interfaces"]["interface"][0]["config"][
+                "mtu"
+            ],
             1024,
         )
         self.assertEqual(
-            result[0]["openconfig-interfaces:interfaces"]["interface"][0][
-                "config"
-            ]["description"],
+            result[0]["openconfig-interfaces:interfaces"]["interface"][0]["config"][
+                "description"
+            ],
             "configured by Ansible yang collection",
         )
