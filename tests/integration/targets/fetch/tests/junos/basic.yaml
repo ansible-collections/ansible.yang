@@ -1,18 +1,21 @@
 ---
-- debug: msg="START ansible.yang.fetch junos/basic.yaml on connection={{ ansible_connection
-    }}"
+- name: Debug
+  ansible.builtin.debug:
+    msg: "START ansible.yang.fetch junos/basic.yaml on connection={{ ansible_connection }}"
+
 - name: Fetch base and dependant openconfig-interfaces yang data models
   ansible.yang.fetch:
       name: junos-es-conf-interfaces
   register: result
 
-- assert:
-      that:
-          - "result.changed == true"
-          - "result.number_schema_fetched == 3"
-          - "'junos-common-types' in result.fetched"
-          - "'junos-es-conf-root' in result.fetched"
-          - "'junos-es-conf-interfaces' in result.fetched"
+- name: Assertion
+  ansible.builtin.assert:
+    that:
+      - "result.changed == true"
+      - "result.number_schema_fetched == 3"
+      - "'junos-common-types' in result.fetched"
+      - "'junos-es-conf-root' in result.fetched"
+      - "'junos-es-conf-interfaces' in result.fetched"
 
 - name: Wrong yang name
   ansible.yang.fetch:

@@ -1,8 +1,9 @@
 ---
-- debug: msg="START ansible.yang.configure iosxr/basic.yaml on connection={{ ansible_connection
-    }}"
+- name: Debug trace
+  ansible.builtin.debug:
+    msg: "START ansible.yang.configure iosxr/basic.yaml on connection={{ ansible_connection }}"
 
-- name: configure interface configuration using cisco iosxr yang model
+- name: Configure interface configuration using cisco iosxr yang model
   ansible.yang.configure:
     config: "{{ lookup('file', './iosxr_interfaces_reset_config.json') | to_json }}"
 
@@ -12,7 +13,7 @@
     file: "{{ configure_yang_file }}"
     search_path: "{{ configure_search_path }}"
 
-- name: configure interface configuration using cisco iosxr yang model
+- name: Configure interface configuration using cisco iosxr yang model
   ansible.yang.configure:
     config: "{{ lookup('file', './iosxr_interfaces_config.json') | to_json }}"
     get_filter: |
@@ -22,15 +23,17 @@
     search_path: "{{ configure_search_path }}"
   register: result
 
-- name: print result
-  debug:
+- name: Display result
+  ansible.builtin.debug:
     msg: "{{ result }}"
-- assert:
+
+- name: Assertion
+  ansible.builtin.assert:
     that:
       - "result.failed == false"
       - "result.changed == true"
 
-- name: test for invalid yang_file path
+- name: Test for invalid yang_file path
   ansible.yang.configure:
     config: "{{ lookup('file', './iosxr_interfaces_config.json') | to_json }}"
     get_filter: |
@@ -41,7 +44,8 @@
   register: result
   ignore_errors: true
 
-- assert:
+- name: Assertion
+  ansible.builtin.assert:
     that:
       - "result.failed == true"
       - "'invalid yang_file path' in result.msg"
@@ -57,10 +61,12 @@
   register: result
   ignore_errors: true
 
-- assert:
+- name: Assertion
+  ansible.builtin.assert:
     that:
       - "result.failed == true"
       - "'invalid search_path directory' in result.msg"
 
-- debug: msg="END ansible.yang.configure iosxr/basic.yaml on connection={{ ansible_connection
-    }}"
+- name: Debug
+  ansible.builtin.debug:
+    msg: "END ansible.yang.configure iosxr/basic.yaml on connection={{ ansible_connection }}"

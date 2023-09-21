@@ -1,6 +1,9 @@
 ---
-- debug: msg="START ansible.yang.configure junos/basic.yaml on connection={{ ansible_connection
-    }}"
+- name: Debug
+  ansible.builtin.debug:
+    msg: "START ansible.yang.configure junos/basic.yaml on connection={{ ansible_connection }}"
 
-- debug: msg="END ansible.yang.configure junos/basic.yaml on connection={{ ansible_connection
-    }}"
+- name: Debug
+  ansible.builtin.debug:
+  debug:
+    msg: "END ansible.yang.configure junos/basic.yaml on connection={{ ansible_connection }}"
