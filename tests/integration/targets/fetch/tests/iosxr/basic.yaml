@@ -20,7 +20,7 @@
 
 - name: Wrong yang name
   ansible.yang.fetch:
-      name: openconfig-interfacess
+    name: openconfig-interfacess
   ignore_errors: true
   register: result
 
@@ -32,7 +32,7 @@
 
 - name: Fetch base and dependant openconfig-bgp yang data models
   ansible.yang.fetch:
-      name: openconfig-bgp
+    name: openconfig-bgp
   register: result
 
 - name: Assertion
@@ -62,8 +62,8 @@
 
 - name: Fetch all the yang models supported by remote host and store it in dir location
   ansible.yang.fetch:
-      name: all
-      dir: "/tmp/yang_files"
+    name: all
+    dir: "/tmp/yang_files"
   register: result
   vars:
     ansible_command_timeout: 600

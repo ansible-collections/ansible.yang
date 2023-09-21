@@ -5,7 +5,7 @@
 
 - name: Fetch base and dependant openconfig-interfaces yang data models
   ansible.yang.fetch:
-      name: junos-es-conf-interfaces
+    name: junos-es-conf-interfaces
   register: result
 
 - name: Assertion
@@ -19,7 +19,7 @@
 
 - name: Wrong yang name
   ansible.yang.fetch:
-      name: openconfig-interfacess
+    name: openconfig-interfacess
   ignore_errors: true
   register: result
 
@@ -31,7 +31,7 @@
 
 - name: Fetch base and dependant openconfig-bgp yang data models
   ansible.yang.fetch:
-      name: junos-es-rpc-bgp
+    name: junos-es-rpc-bgp
   register: result
 
 - name: Assertion
@@ -53,11 +53,11 @@
 
 - name: Fetch all the yang models supported by remote host and store it in dir location
   ansible.yang.fetch:
-      name: all
-      dir: "/tmp/yang_files"
+    name: all
+    dir: "/tmp/yang_files"
   register: result
   vars:
-      ansible_command_timeout: 600
+    ansible_command_timeout: 600
 
 - name: Assertion
   ansible.builtin.assert:

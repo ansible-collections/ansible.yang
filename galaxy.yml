@@ -6,7 +6,9 @@ dependencies:
 license_file: LICENSE
 name: yang
 namespace: ansible
+description: Ansible Network Collection to support yang.
 readme: README.md
 repository: https://github.com/ansible-collections/ansible.yang
-tags: [networking, security, cloud, network_cli, netconf, httpapi, grpc]
-version: null
+issues: https://github.com/ansible-collections/ansible.yang/issues
+tags: [networking, security, netconf]
+version: 1.0.1
