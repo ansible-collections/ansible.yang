@@ -73,11 +73,10 @@ EXAMPLES = """
 """
 
 RETURN = """
-  _raw:
+  _list:
     description:
       - It returns json skeleton configuration schema, xml skeleton schema and tree structure (as per RFC 8340)
         for given yang schema.
-    type: complex
     contains:
       tree:
         description: The tree representation of yang scehma as per RFC 8340
