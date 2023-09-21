@@ -9,7 +9,7 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 DOCUMENTATION = """
-    lookup: spec
+    name: spec
     author: Ganesh Nalawade (@ganeshrn)
     short_description:  This plugin reads the content of given yang document and generates json and xml
                         configuration skeleton and a tree structure of yang document.
@@ -73,7 +73,7 @@ EXAMPLES = """
 """
 
 RETURN = """
-  _list:
+  _raw:
     description:
       - It returns json skeleton configuration schema, xml skeleton schema and tree structure (as per RFC 8340)
         for given yang schema.

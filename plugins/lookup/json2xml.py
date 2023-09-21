@@ -8,7 +8,7 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 DOCUMENTATION = """
-lookup: json2xml
+name: json2xml
 author: Ganesh Nalawade (@ganeshrn)
 short_description: Validates json configuration against yang data model and convert it to xml.
 description:

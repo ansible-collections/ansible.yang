@@ -8,7 +8,7 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 DOCUMENTATION = """
-lookup: xml2json
+name: xml2json
 author: Ganesh Nalawade (@ganeshrn)
 short_description: Converts xml input to json structure output by mapping it against corresponding Yang model
 description:
