@@ -1,11 +1,14 @@
 ---
-- debug: msg="START ansible.yang.spec on connection={{ ansible_connection }}"
+- name: Debug
+  ansible.builtib.debug:
+    msg: "START ansible.yang.spec on connection={{ ansible_connection }}"
 
 - name: Convert interface yang module to spec with default values
-  set_fact:
+  ansible.builtin.set_fact:
     interface_spec: "{{ lookup('ansible.yang.spec', spec_yang_file, search_path=spec_search_path, defaults=True) }}"
 
-- assert:
+- name: Assertion
+  ansible.builtib.assert:
     that:
       - "'json_skeleton' in interface_spec"
       - "'xml_skeleton' in interface_spec"
@@ -21,10 +24,11 @@
       - "'+--rw interface* [name]' in interface_spec['tree']"
 
 - name: Convert interface yang module to spec with no default and annotation in xml
-  set_fact:
+  ansible.builtin.set_fact:
     interface_spec: "{{ lookup('ansible.yang.spec', spec_yang_file, search_path=spec_search_path, defaults=False, annotations=True) }}"
 
-- assert:
+- name: Assertion
+  ansible.builtib.assert:
     that:
       - "'json_skeleton' in interface_spec"
       - "'xml_skeleton' in interface_spec"
@@ -39,10 +43,11 @@
       - "'<!-- # keys: name-->' in interface_spec['xml_skeleton']"
 
 - name: Convert interface yang module to spec with state data
-  set_fact:
+  ansible.builtin.set_fact:
     interface_spec: "{{ lookup('ansible.yang.spec', spec_yang_file, search_path=spec_search_path, doctype='data') }}"
 
-- assert:
+- name: Assertion
+  ansible.builtib.assert:
     that:
       - "'json_skeleton' in interface_spec"
       - "'xml_skeleton' in interface_spec"
@@ -58,23 +63,27 @@
       - "'<state>' in interface_spec['xml_skeleton']"
 
 - name: Wrong yang module path
-  set_fact:
+  ansible.builtin.set_fact:
     interface_spec: "{{ lookup('ansible.yang.spec', '/test', search_path=spec_search_path) }}"
   ignore_errors: true
   register: result
 
-- assert:
+- name: Assertion
+  ansible.builtib.assert:
     that:
       - "'invalid file path' in result.msg"
 
 - name: Wrong module search path
-  set_fact:
+  ansible.builtin.set_fact:
     interface_spec: "{{ lookup('ansible.yang.spec', spec_yang_file, search_path='/test') }}"
   ignore_errors: true
   register: result
 
-- assert:
+- name: Assertion
+  ansible.builtib.assert:
     that:
       - "'invalid directory path' in result.msg"
 
-- debug: msg="END ansible.yang.spec on connection={{ ansible_connection }}"
+- name: Debug
+  ansible.builtib.debug:
+    msg: "END ansible.yang.spec on connection={{ ansible_connection }}"

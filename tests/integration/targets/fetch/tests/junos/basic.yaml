@@ -23,30 +23,33 @@
   ignore_errors: true
   register: result
 
-- assert:
-      that:
-          - "result.failed == true"
-          - "'Fail to fetch \\'openconfig-interfacess\\' yang model' in result.msg"
+- name: Assertion
+  ansible.builtin.assert:
+    that:
+      - "result.failed == true"
+      - "'Fail to fetch \\'openconfig-interfacess\\' yang model' in result.msg"
 
 - name: Fetch base and dependant openconfig-bgp yang data models
   ansible.yang.fetch:
       name: junos-es-rpc-bgp
   register: result
 
-- assert:
-      that:
-          - "result.changed == true"
-          - "result.number_schema_fetched == 2"
-          - "'junos-es-rpc-bgp' in result.fetched"
-          - "'junos-common-types' in result.fetched"
+- name: Assertion
+  ansible.builtin.assert:
+    that:
+      - "result.changed == true"
+      - "result.number_schema_fetched == 2"
+      - "'junos-es-rpc-bgp' in result.fetched"
+      - "'junos-common-types' in result.fetched"
 
 - name: Test for supported_yang_modules in result
   ansible.yang.fetch:
   register: result
 
-- assert:
-      that:
-          - "'supported_yang_modules' in result"
+- name: Assertion
+  ansible.builtin.assert:
+    that:
+      - "'supported_yang_modules' in result"
 
 - name: Fetch all the yang models supported by remote host and store it in dir location
   ansible.yang.fetch:
@@ -56,19 +59,22 @@
   vars:
       ansible_command_timeout: 600
 
-- assert:
-      that:
-          - "result.changed == true"
-          - "result.number_schema_fetched > 150"
+- name: Assertion
+  ansible.builtin.assert:
+    that:
+      - "result.changed == true"
+      - "result.number_schema_fetched > 150"
 
 - name: assert files are present
   delegate_to: localhost
   command: "ls /tmp/yang_files"
   register: result
 
-- assert:
-      that:
-          - "result.stdout_lines | length > 150"
+- name: Assertion
+  ansible.builtin.assert:
+    that:
+      - "result.stdout_lines | length > 150"
 
-- debug: msg="END ansible.yang.fetch junos/basic.yaml on connection={{ ansible_connection
-    }}"
+- name: Debug
+  debug:
+    msg: "END ansible.yang.fetch junos/basic.yaml on connection={{ ansible_connection }}"

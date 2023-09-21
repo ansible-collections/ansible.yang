@@ -1,12 +1,12 @@
 ---
 - name: Perform Junos tasks
-  ansible.builtin.include: junos.yaml
+  ansible.builtin.include_tasks: junos.yaml
   when: ansible_network_os == 'junipernetworks.junos.junos'
   tags:
     - netconf
 
 - name: Perform iosxr tasks
-  ansible.builtin.include: iosxr.yaml
+  ansible.builtin.include_tasks: iosxr.yaml
   when: ansible_network_os == 'cisco.iosxr.iosxr'
   tags:
     - netconf
