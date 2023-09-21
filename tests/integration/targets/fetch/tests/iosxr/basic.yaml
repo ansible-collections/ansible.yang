@@ -5,18 +5,18 @@
 
 - name: Fetch base and dependant openconfig-interfaces yang data models
   ansible.yang.fetch:
-      name: openconfig-interfaces
+    name: openconfig-interfaces
   register: result
 
 - name: Assertion
   ansible.builtin.assert:
-      that:
-          - "result.changed == true"
-          - "result.number_schema_fetched == 4"
-          - "'ietf-interfaces' in result.fetched"
-          - "'ietf-yang-types' in result.fetched"
-          - "'openconfig-extensions' in result.fetched"
-          - "'openconfig-interfaces' in result.fetched"
+    that:
+      - "result.changed == true"
+      - "result.number_schema_fetched == 4"
+      - "'ietf-interfaces' in result.fetched"
+      - "'ietf-yang-types' in result.fetched"
+      - "'openconfig-extensions' in result.fetched"
+      - "'openconfig-interfaces' in result.fetched"
 
 - name: Wrong yang name
   ansible.yang.fetch:
@@ -26,9 +26,9 @@
 
 - name: Assertion
   ansible.builtin.assert:
-      that:
-          - "result.failed == true"
-          - "'Fail to fetch \\'openconfig-interfacess\\' yang model' in result.msg"
+    that:
+      - "result.failed == true"
+      - "'Fail to fetch \\'openconfig-interfacess\\' yang model' in result.msg"
 
 - name: Fetch base and dependant openconfig-bgp yang data models
   ansible.yang.fetch:
@@ -66,7 +66,7 @@
       dir: "/tmp/yang_files"
   register: result
   vars:
-      ansible_command_timeout: 600
+    ansible_command_timeout: 600
 
 - name: Assertion
   ansible.builtin.assert:
@@ -85,5 +85,5 @@
       - "result.stdout_lines | length > 300"
 
 - name: Debug
-  debug: 
+  debug:
     msg: "END ansible.yang.fetch iosxr/basic.yaml on connection={{ ansible_connection }}"
