@@ -73,7 +73,7 @@ from ansible_collections.ansible.yang.plugins.module_utils.translator import (
 )
 
 try:
-    import pyang  # noqa
+    import pyang  # pylint: disable=unused-import
 except ImportError as imp_exc:
     PYANG_IMPORT_ERROR = imp_exc
 else:

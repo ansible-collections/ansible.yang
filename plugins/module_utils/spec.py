@@ -26,7 +26,7 @@ from ansible_collections.ansible.yang.plugins.module_utils.common import (
 )
 
 try:
-    from pyang import error  # noqa: F401
+    from pyang import error  # pylint: disable=unused-import
 
     HAS_PYANG = True
 except ImportError:
