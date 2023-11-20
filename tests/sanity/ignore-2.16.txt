@@ -2,3 +2,7 @@ plugins/lookup/json2xml.py ignores:unused-import
 plugins/lookup/xml2json.py ignores:unused-import
 plugins/module_utils/spec.py ignores:unused-import
 plugins/module_utils/translator.py ignores:unused-import
+plugins/lookup/json2xml.py pylint:unused-import
+plugins/lookup/xml2json.py pylint:unused-import
+plugins/module_utils/spec.py pylint:unused-import
+plugins/module_utils/translator.py pylint:unused-import
