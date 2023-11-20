@@ -38,7 +38,7 @@ Major Changes
 - Added generate_spec module (https://github.com/ansible-collections/community.yang/pull/6)
 - Added get module (https://github.com/ansible-collections/community.yang/pull/8)
 - Added json2xml lookup plugin (https://github.com/ansible-collections/community.yang/pull/5)
-- Added module to fetch yang model and it's dependenices from remote host (https://github.com/ansible-collections/community.yang/issues/1).
+- Added module to fetch yang model and it's dependency from remote host (https://github.com/ansible-collections/community.yang/issues/1).
 - Added spec lookup plugin (https://github.com/ansible-collections/community.yang/pull/4)
 - Added xml2json lookup plugin (https://github.com/ansible-collections/community.yang/pull/7)
 
