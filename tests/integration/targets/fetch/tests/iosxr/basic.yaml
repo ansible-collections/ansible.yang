@@ -1,6 +1,6 @@
 ---
 - debug:
-    msg: "START community.yang.fetch iosxr/basic.yaml on connection={{ ansible_connection }}"
+    msg: "START ansible.yang.fetch iosxr/basic.yaml on connection={{ ansible_connection }}"
 
 - name: Fetch base and dependant openconfig-interfaces yang data models
   ansible.yang.fetch:
@@ -78,4 +78,4 @@
       - result.stdout_lines | length > 300
 
 - debug:
-    msg: "END community.yang.fetch iosxr/basic.yaml on connection={{ ansible_connection }}"
+    msg: "END ansible.yang.fetch iosxr/basic.yaml on connection={{ ansible_connection }}"

@@ -51,4 +51,4 @@
       - "'invalid search_path directory' in result.msg"
 
 - debug:
-    msg: "END community.yang.get iosxr/basic.yaml on connection={{ ansible_connection }}"
+    msg: "END ansible.yang.get iosxr/basic.yaml on connection={{ ansible_connection }}"

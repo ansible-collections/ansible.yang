@@ -1,6 +1,6 @@
 ---
 - debug:
-    msg: "START community.yang.generate_spec iosxr/basic.yaml on connection={{ ansible_connection }}"
+    msg: "START ansible.yang.generate_spec iosxr/basic.yaml on connection={{ ansible_connection }}"
 
 - set_fact:
     expected_xml_output:
@@ -61,4 +61,4 @@
       - "'openconfig-interfaces:interfaces' in result['json_schema']"
 
 - debug:
-    msg: "END community.yang.generate_spec iosxr/basic.yaml on connection={{ ansible_connection }}"
+    msg: "END ansible.yang.generate_spec iosxr/basic.yaml on connection={{ ansible_connection }}"

@@ -1,6 +1,6 @@
 ---
 - debug:
-    msg: "START community.yang.configure iosxr/basic.yaml on connection={{ ansible_connection }}"
+    msg: "START ansible.yang.configure iosxr/basic.yaml on connection={{ ansible_connection }}"
 
 - name: configure interface configuration using cisco iosxr yang model
   ansible.yang.configure:
@@ -65,4 +65,4 @@
       - "'invalid search_path directory' in result.msg"
 
 - debug:
-    msg: "END community.yang.configure iosxr/basic.yaml on connection={{ ansible_connection }}"
+    msg: "END ansible.yang.configure iosxr/basic.yaml on connection={{ ansible_connection }}"
