@@ -1,4 +1,4 @@
-plugins/lookup/json2xml.py:86:4: unused-import
-plugins/lookup/xml2json.py:85:4: unused-import
-plugins/module_utils/spec.py:29:4: unused-import
-plugins/module_utils/translator.py:32:4: unused-import
+plugins/lookup/json2xml.py ignores:unused-import
+plugins/lookup/xml2json.py ignores:unused-import
+plugins/module_utils/spec.py ignores:unused-import
+plugins/module_utils/translator.py ignores:unused-import
