@@ -2,11 +2,12 @@
 authors:
   - Ansible Network Community (ansible-network)
 dependencies:
-  "ansible.netcommon": ">=2.5.1"
+  ansible.netcommon: ">=2.5.1"
+description: Ansible yang collection for yang based operation
 license_file: LICENSE
 name: yang
 namespace: ansible
 readme: README.md
 repository: https://github.com/ansible-collections/ansible.yang
 tags: [networking, security, cloud, network_cli, netconf, httpapi, grpc]
-version: null
+version: "1.2.0"

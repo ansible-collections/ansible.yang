@@ -1,8 +1,6 @@
 ---
-testcase: '*'
+testcase: "*"
 
 # variables for spec lookup plugin
 spec_yang_file: "{{ role_path }}/../../../fixtures/files/openconfig/interfaces/openconfig-interfaces.yang"
 spec_search_path: "{{ role_path }}/../../../fixtures/files/"
-spec_junos_yang_file: "{{ role_path }}/../../../fixtures/files/junipernetworks/junos/ietf-netconf.yang"
-spec_junos_search_path: "{{ role_path }}/../../../fixtures/files/junipernetworks/junos/"
