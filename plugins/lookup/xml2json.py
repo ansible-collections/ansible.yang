@@ -81,12 +81,12 @@ from ansible_collections.ansible.yang.plugins.common.base import (
     XM2JSON_DIR_PATH,
 )
 
-try:
-    import pyang  # noqa
-except ImportError as imp_exc:
-    PYANG_IMPORT_ERROR = imp_exc
-else:
-    PYANG_IMPORT_ERROR = None
+# try:
+#     import pyang  # noqa
+# except ImportError as imp_exc:
+#     PYANG_IMPORT_ERROR = imp_exc
+# else:
+#     PYANG_IMPORT_ERROR = None
 
 from ansible.utils.display import Display
 
@@ -104,11 +104,11 @@ class LookupModule(LookupBase):
         display.vvvv(msg)
 
     def run(self, terms, variables, **kwargs):
-        if PYANG_IMPORT_ERROR:
-            raise_from(
-                AnsibleLookupError("pyang must be installed to use this plugin"),
-                PYANG_IMPORT_ERROR,
-            )
+        # if PYANG_IMPORT_ERROR:
+        #     raise_from(
+        #         AnsibleLookupError("pyang must be installed to use this plugin"),
+        #         PYANG_IMPORT_ERROR,
+        #     )
 
         res = []
         try:

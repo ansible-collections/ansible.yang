@@ -25,12 +25,12 @@ from ansible_collections.ansible.yang.plugins.module_utils.common import (
     to_list,
 )
 
-try:
-    from pyang import error  # noqa: F401
+# try:
+#     from pyang import error  # noqa: F401
 
-    HAS_PYANG = True
-except ImportError:
-    HAS_PYANG = False
+#     HAS_PYANG = True
+# except ImportError:
+#     HAS_PYANG = False
 
 YANG_SPEC_DIR_PATH = "~/.ansible/tmp/yang/spec"
 
@@ -45,18 +45,21 @@ class GenerateSpec(object):
         keep_tmp_files=False,
         tmp_dir_path=YANG_SPEC_DIR_PATH,
     ):
-        if not HAS_PYANG:
-            raise ImportError(missing_required_lib("pyang"))
+        # if not HAS_PYANG:
+        #     raise ImportError(missing_required_lib("pyang"))
 
         yang_file_path = to_list(yang_file_path) if yang_file_path else []
         self._yang_file_path = []
         self._yang_content = yang_content
         self._doctype = doctype
         self._keep_tmp_files = keep_tmp_files
-        self._pyang_exec_path = find_file_in_path("pyang")
+
+        try:
+            self._pyang_exec_path = find_file_in_path("pyang")
+        except Exception as exc:
+            raise ValueError(missing_required_lib("pyang")) from exc
 
         self._tmp_dir_path = tmp_dir_path
-
         self._handle_yang_file_path(yang_file_path)
         self._handle_search_path(search_path)
 
@@ -125,9 +128,7 @@ class GenerateSpec(object):
         tree_tmp_file_path = os.path.join(
             self._tmp_dir_path, "%s.%s" % (str(uuid.uuid4()), "txt")
         )
-        tree_tmp_file_path = os.path.realpath(
-            os.path.expanduser(tree_tmp_file_path)
-        )
+        tree_tmp_file_path = os.path.realpath(os.path.expanduser(tree_tmp_file_path))
         # fill in the sys args before invoking pyang to retrieve tree structure
         tree_cmd = [
             self._pyang_exec_path,
@@ -152,17 +153,13 @@ class GenerateSpec(object):
                     os.path.realpath(os.path.expanduser(self._tmp_dir_path)),
                     ignore_errors=True,
                 )
-            raise ValueError(
-                "Error while generating skeleton xml file: %s" % e.output
-            )
+            raise ValueError("Error while generating skeleton xml file: %s" % e.output)
         finally:
             err = sys.stdout.getvalue()
             if err and "error" in err.lower():
                 if not self._keep_tmp_files:
                     shutil.rmtree(
-                        os.path.realpath(
-                            os.path.expanduser(self._tmp_dir_path)
-                        ),
+                        os.path.realpath(os.path.expanduser(self._tmp_dir_path)),
                         ignore_errors=True,
                     )
                 raise ValueError("Error while generating tree file: %s" % err)
@@ -210,9 +207,7 @@ class GenerateSpec(object):
         xml_tmp_file_path = os.path.join(
             self._tmp_dir_path, "%s.%s" % (str(uuid.uuid4()), "xml")
         )
-        xml_tmp_file_path = os.path.realpath(
-            os.path.expanduser(xml_tmp_file_path)
-        )
+        xml_tmp_file_path = os.path.realpath(os.path.expanduser(xml_tmp_file_path))
         # fill in the sys args before invoking pyang to retrieve xml skeleton
         sample_xml_skeleton_cmd = [
             self._pyang_exec_path,
@@ -247,22 +242,16 @@ class GenerateSpec(object):
                     os.path.realpath(os.path.expanduser(self._tmp_dir_path)),
                     ignore_errors=True,
                 )
-            raise ValueError(
-                "Error while generating skeleton xml file: %s" % e.output
-            )
+            raise ValueError("Error while generating skeleton xml file: %s" % e.output)
         finally:
             err = sys.stdout.getvalue()
             if err and "error" in err.lower():
                 if not self._keep_tmp_files:
                     shutil.rmtree(
-                        os.path.realpath(
-                            os.path.expanduser(self._tmp_dir_path)
-                        ),
+                        os.path.realpath(os.path.expanduser(self._tmp_dir_path)),
                         ignore_errors=True,
                     )
-                raise ValueError(
-                    "Error while generating skeleton xml file: %s" % err
-                )
+                raise ValueError("Error while generating skeleton xml file: %s" % err)
 
         sys.stdout.flush()
         sys.stderr.flush()
@@ -304,9 +293,7 @@ class GenerateSpec(object):
         json_tmp_file_path = os.path.join(
             self._tmp_dir_path, "%s.%s" % (str(uuid.uuid4()), "json")
         )
-        json_tmp_file_path = os.path.realpath(
-            os.path.expanduser(json_tmp_file_path)
-        )
+        json_tmp_file_path = os.path.realpath(os.path.expanduser(json_tmp_file_path))
 
         plugin_file_src = os.path.join(
             os.path.dirname(os.path.abspath(__file__)),
@@ -346,22 +333,16 @@ class GenerateSpec(object):
                     os.path.realpath(os.path.expanduser(self._tmp_dir_path)),
                     ignore_errors=True,
                 )
-            raise ValueError(
-                "Error while generating skeleton json file: %s" % e.output
-            )
+            raise ValueError("Error while generating skeleton json file: %s" % e.output)
         finally:
             err = sys.stdout.getvalue()
             if err and "error" in err.lower():
                 if not self._keep_tmp_files:
                     shutil.rmtree(
-                        os.path.realpath(
-                            os.path.expanduser(self._tmp_dir_path)
-                        ),
+                        os.path.realpath(os.path.expanduser(self._tmp_dir_path)),
                         ignore_errors=True,
                     )
-                raise ValueError(
-                    "Error while generating json schema: %s" % err
-                )
+                raise ValueError("Error while generating json schema: %s" % err)
 
         sys.stdout.flush()
         sys.stderr.flush()

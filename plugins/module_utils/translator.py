@@ -28,12 +28,12 @@ from ansible_collections.ansible.yang.plugins.module_utils.common import (
     to_list,
 )
 
-try:
-    import pyang  # noqa
+# try:
+#     import pyang  # noqa
 
-    HAS_PYANG = True
-except ImportError:
-    HAS_PYANG = False
+#     HAS_PYANG = True
+# except ImportError:
+#     HAS_PYANG = False
 
 try:
     from lxml import etree
@@ -98,11 +98,16 @@ class Translator(object):
         self._search_path = abs_search_path
 
     def _set_pyang_executables(self):
-        if not HAS_PYANG:
-            raise ValueError(missing_required_lib("pyang"))
+        # if not HAS_PYANG:
+        #     raise ValueError(missing_required_lib("pyang"))
         if not HAS_LXML:
             raise ValueError(missing_required_lib("lxml"))
-        base_pyang_path = sys.modules["pyang"].__file__
+        try:
+            base_pyang_path = sys.modules["pyang"].__file__
+        except Exception as exc:
+            raise ValueError(missing_required_lib("pyang")) from exc
+        # except Exception:
+        #     raise ValueError(missing_required_lib("pyang"))
         self._pyang_exec_path = find_file_in_path("pyang")
         self._pyang_module = load_from_source(self._pyang_exec_path, "pyang")
         sys.modules["pyang"].__file__ = base_pyang_path
@@ -125,21 +130,15 @@ class Translator(object):
             json_file_path = os.path.join(
                 tmp_dir_path, "%s.%s" % (str(uuid.uuid4()), "json")
             )
-            json_file_path = os.path.realpath(
-                os.path.expanduser(json_file_path)
-            )
+            json_file_path = os.path.realpath(os.path.expanduser(json_file_path))
             with open(json_file_path, "w") as f:
                 f.write(json.dumps(json_data))
-            json_file_path = os.path.realpath(
-                os.path.expanduser(json_file_path)
-            )
+            json_file_path = os.path.realpath(os.path.expanduser(json_file_path))
 
         elif os.path.isfile(json_data):
             json_file_path = json_data
         else:
-            raise ValueError(
-                "unable to create/find temporary json file %s" % json_data
-            )
+            raise ValueError("unable to create/find temporary json file %s" % json_data)
 
         try:
             # validate json
@@ -153,9 +152,7 @@ class Translator(object):
         jtox_file_path = os.path.join(
             tmp_dir_path, "%s.%s" % (str(uuid.uuid4()), "jtox")
         )
-        xml_file_path = os.path.join(
-            tmp_dir_path, "%s.%s" % (str(uuid.uuid4()), "xml")
-        )
+        xml_file_path = os.path.join(tmp_dir_path, "%s.%s" % (str(uuid.uuid4()), "xml"))
         jtox_file_path = os.path.realpath(os.path.expanduser(jtox_file_path))
         xml_file_path = os.path.realpath(os.path.expanduser(xml_file_path))
 
@@ -194,9 +191,7 @@ class Translator(object):
                 os.path.realpath(os.path.expanduser(tmp_dir_path)),
                 ignore_errors=True,
             )
-            raise ValueError(
-                "Error while generating intermediate (jtox) file: %s" % e
-            )
+            raise ValueError("Error while generating intermediate (jtox) file: %s" % e)
         finally:
             err = sys.stderr.getvalue()
             if err and "error" in err.lower():
@@ -234,9 +229,7 @@ class Translator(object):
                 b_content = fp.read()
                 content = to_text(b_content, errors="surrogate_or_strict")
         except UnicodeError as uni_error:
-            raise ValueError(
-                "Error while translating to text: %s" % str(uni_error)
-            )
+            raise ValueError("Error while translating to text: %s" % str(uni_error))
         except SystemExit:
             pass
         finally:
@@ -283,9 +276,7 @@ class Translator(object):
             xml_file_path = os.path.realpath(os.path.expanduser(xml_file_path))
             with open(xml_file_path, "w") as f:
                 if not xml_data.startswith("<?xml version"):
-                    xml_data = (
-                        '<?xml version="1.0" encoding="UTF-8"?>\n' + xml_data
-                    )
+                    xml_data = '<?xml version="1.0" encoding="UTF-8"?>\n' + xml_data
                 data = xml_data
                 f.write(data)
         except etree.XMLSyntaxError:
@@ -298,9 +289,7 @@ class Translator(object):
                         os.path.realpath(os.path.expanduser(tmp_dir_path)),
                         ignore_errors=True,
                     )
-                raise ValueError(
-                    "Unable to create file or read XML data %s" % xml_data
-                )
+                raise ValueError("Unable to create file or read XML data %s" % xml_data)
 
         xml_file_path = os.path.realpath(os.path.expanduser(xml_file_path))
 
@@ -310,8 +299,7 @@ class Translator(object):
                 etree.parse(xml_file_path)
                 if self._debug:
                     self._debug(
-                        "Parsing xml data from temporary file: %s"
-                        % xml_file_path
+                        "Parsing xml data from temporary file: %s" % xml_file_path
                     )
             except Exception as exc:
                 if not self._keep_tmp_files:
@@ -339,16 +327,12 @@ class Translator(object):
             os.path.join(jsonxsl_relative_dirpath, "jsonxsl-templates.xsl")
         )
         if jsonxsl_dir_path is None:
-            raise ValueError(
-                "Could not find jsonxsl-templates.xsl in environment path"
-            )
+            raise ValueError("Could not find jsonxsl-templates.xsl in environment path")
         os.environ["PYANG_XSLT_DIR"] = os.path.join(
             jsonxsl_dir_path, jsonxsl_relative_dirpath
         )
 
-        xsl_file_path = os.path.join(
-            tmp_dir_path, "%s.%s" % (str(uuid.uuid4()), "xsl")
-        )
+        xsl_file_path = os.path.join(tmp_dir_path, "%s.%s" % (str(uuid.uuid4()), "xsl"))
         json_file_path = os.path.join(
             tmp_dir_path, "%s.%s" % (str(uuid.uuid4()), "json")
         )
@@ -382,9 +366,7 @@ class Translator(object):
                     os.path.realpath(os.path.expanduser(tmp_dir_path)),
                     ignore_errors=True,
                 )
-            raise ValueError(
-                "Error while generating intermediate (xsl) file: %s" % e
-            )
+            raise ValueError("Error while generating intermediate (xsl) file: %s" % e)
         finally:
             err = sys.stderr.getvalue()
             if err and "error" in err.lower():
@@ -440,8 +422,7 @@ class Translator(object):
         try:
             if self._debug:
                 self._debug(
-                    "Reading output json data from temporary file: %s"
-                    % json_file_path
+                    "Reading output json data from temporary file: %s" % json_file_path
                 )
             with open(json_file_path, "r") as fp:
                 raw_content = fp.read()
