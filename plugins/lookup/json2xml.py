@@ -74,7 +74,8 @@ import os
 import json
 
 from ansible.plugins.lookup import LookupBase
-from ansible.module_utils.six import raise_from
+
+# from ansible.module_utils.six import raise_from
 from ansible.module_utils._text import to_text
 from ansible.errors import AnsibleLookupError
 
