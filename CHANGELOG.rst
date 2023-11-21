@@ -1,5 +1,5 @@
 ==========================================
-Community yang Collection Release Notes
+Ansible Yang Collection Release Notes
 ==========================================
 
 .. contents:: Topics
@@ -11,13 +11,6 @@ Minor Changes
 -------------
 
 - community.yang.configure - Since ``configure`` module is built on top of ``netconf_config`` we add a new option argument, ``netconf_options``, allowing passing options directly to ``netconf_config``.
-
-v1.0.1
-======
-
-Minor Changes
--------------
-
 - Added unit test for xml2json, json2xml and spec lookup plugins (https://github.com/ansible-collections/community.yang/pull/50)
 - Refactored module_utils to fix ansible-test sanity issues (https://github.com/ansible-collections/community.yang/pull/50)
 - added optional attribute for fetch action to continue if it hits a module that cannot be found
