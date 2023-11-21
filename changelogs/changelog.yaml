@@ -1,13 +1,29 @@
 ancestor: null
 releases:
+  1.1.0:
+    changes:
+      minor_changes:
+        - community.yang.configure - Since ``configure`` module is built on top of ``netconf_config``
+          we add a new option argument, ``netconf_options``, allowing passing options
+          directly to ``netconf_config``.
+        - Added unit test for xml2json, json2xml and spec lookup plugins (https://github.com/ansible-collections/community.yang/pull/50)
+        - Refactored module_utils to fix ansible-test sanity issues (https://github.com/ansible-collections/community.yang/pull/50)
+        - added optional attribute for fetch action to continue if it hits a module that cannot be found
+      bugfixes:
+        - Fixed json2xml py3 compatibility issues (https://github.com/ansible-collections/community.yang/pull/45)
+        - Sort yang_files to address dependency issue (https://github.com/ansible-collections/community.yang/pull/46)
+    fragments:
+      - 54-remove_tests_sanity_requirements.yml
+      - 58-add_netconf_options.yml
+      - fix-sanity-ansible-doc.yaml
+    release_date: "2023-11-21"
   1.0.0:
     changes:
       major_changes:
-      - Add modules get, fetch, configure, generate_spec to ansible.yang collections.
-      - Added configure module to push json format configuration on to remote host
-        over netconf connection.
+        - Add modules get, fetch, configure, generate_spec to ansible.yang collections.
+        - Added configure module to push json format configuration on to remote host
+          over netconf connection.
     fragments:
-    - add_ansible_yangmodules.yaml
-    - yang_configure_module.yaml
-    release_date: '2022-04-28'
-  
+      - add_ansible_yangmodules.yaml
+      - yang_configure_module.yaml
+    release_date: "2022-04-28"
