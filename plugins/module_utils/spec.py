@@ -4,26 +4,25 @@
 # (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 from __future__ import absolute_import, division, print_function
 
+
 __metaclass__ = type
 
-import glob
-import os
-import sys
-import shutil
-import json
-import uuid
 import errno
-
+import glob
+import json
+import os
+import shutil
 import subprocess
+import sys
+import uuid
+
 from copy import deepcopy
 
-from ansible.module_utils.six import StringIO
 from ansible.module_utils.basic import missing_required_lib
+from ansible.module_utils.six import StringIO
 
-from ansible_collections.ansible.yang.plugins.module_utils.common import (
-    find_file_in_path,
-    to_list,
-)
+from ansible_collections.ansible.yang.plugins.module_utils.common import find_file_in_path, to_list
+
 
 # try:
 #     from pyang import error  # noqa: F401
@@ -71,10 +70,11 @@ class GenerateSpec(object):
     def _handle_yang_file_path(self, yang_files):
         if not yang_files:
             content_tmp_file_path = os.path.join(
-                self._tmp_dir_path, "%s.%s" % (str(uuid.uuid4()), "yang")
+                self._tmp_dir_path,
+                "%s.%s" % (str(uuid.uuid4()), "yang"),
             )
             content_tmp_file_path = os.path.realpath(
-                os.path.expanduser(content_tmp_file_path)
+                os.path.expanduser(content_tmp_file_path),
             )
             with open(content_tmp_file_path, "w") as opened_file:
                 opened_file.write(self._yang_content)
@@ -126,7 +126,8 @@ class GenerateSpec(object):
         sys.stdout = sys.stderr = StringIO()
 
         tree_tmp_file_path = os.path.join(
-            self._tmp_dir_path, "%s.%s" % (str(uuid.uuid4()), "txt")
+            self._tmp_dir_path,
+            "%s.%s" % (str(uuid.uuid4()), "txt"),
         )
         tree_tmp_file_path = os.path.realpath(os.path.expanduser(tree_tmp_file_path))
         # fill in the sys args before invoking pyang to retrieve tree structure
@@ -143,7 +144,9 @@ class GenerateSpec(object):
 
         try:
             subprocess.check_output(
-                " ".join(tree_cmd), stderr=subprocess.STDOUT, shell=True
+                " ".join(tree_cmd),
+                stderr=subprocess.STDOUT,
+                shell=True,
             )
         except SystemExit:
             pass
@@ -188,7 +191,10 @@ class GenerateSpec(object):
         return tree_schema
 
     def generate_xml_schema(
-        self, schema_out_path=None, defaults=False, annotations=False
+        self,
+        schema_out_path=None,
+        defaults=False,
+        annotations=False,
     ):
         """
         This method generates XML schema by parsing the yang file and stores
@@ -205,7 +211,8 @@ class GenerateSpec(object):
         sys.stdout = sys.stderr = StringIO()
 
         xml_tmp_file_path = os.path.join(
-            self._tmp_dir_path, "%s.%s" % (str(uuid.uuid4()), "xml")
+            self._tmp_dir_path,
+            "%s.%s" % (str(uuid.uuid4()), "xml"),
         )
         xml_tmp_file_path = os.path.realpath(os.path.expanduser(xml_tmp_file_path))
         # fill in the sys args before invoking pyang to retrieve xml skeleton
@@ -291,7 +298,8 @@ class GenerateSpec(object):
         sys.stdout = sys.stderr = StringIO()
 
         json_tmp_file_path = os.path.join(
-            self._tmp_dir_path, "%s.%s" % (str(uuid.uuid4()), "json")
+            self._tmp_dir_path,
+            "%s.%s" % (str(uuid.uuid4()), "json"),
         )
         json_tmp_file_path = os.path.realpath(os.path.expanduser(json_tmp_file_path))
 

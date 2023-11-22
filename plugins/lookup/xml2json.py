@@ -5,6 +5,7 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 from __future__ import absolute_import, division, print_function
 
+
 __metaclass__ = type
 
 DOCUMENTATION = """
@@ -67,20 +68,16 @@ _raw:
     description: The translated json structure from xml
 """
 
-from ansible.plugins.lookup import LookupBase
 from ansible.errors import AnsibleLookupError
 
 # from ansible.module_utils.six import raise_from
 from ansible.module_utils._text import to_text
+from ansible.plugins.lookup import LookupBase
+from ansible.utils.display import Display
 
-from ansible_collections.ansible.yang.plugins.module_utils.translator import (
-    Translator,
-)
+from ansible_collections.ansible.yang.plugins.common.base import XM2JSON_DIR_PATH, create_tmp_dir
+from ansible_collections.ansible.yang.plugins.module_utils.translator import Translator
 
-from ansible_collections.ansible.yang.plugins.common.base import (
-    create_tmp_dir,
-    XM2JSON_DIR_PATH,
-)
 
 # try:
 #     import pyang  # noqa
@@ -89,7 +86,6 @@ from ansible_collections.ansible.yang.plugins.common.base import (
 # else:
 #     PYANG_IMPORT_ERROR = None
 
-from ansible.utils.display import Display
 
 display = Display()
 
@@ -141,8 +137,8 @@ class LookupModule(LookupBase):
         except Exception as exc:
             raise AnsibleLookupError(
                 "Unhandled exception from [lookup][xml2json]. Error: {err}".format(
-                    err=to_text(exc, errors="surrogate_then_replace")
-                )
+                    err=to_text(exc, errors="surrogate_then_replace"),
+                ),
             )
 
         res.append(json_data)
