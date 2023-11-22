@@ -4,16 +4,18 @@
 # (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 from __future__ import absolute_import, division, print_function
 
+
 __metaclass__ = type
 
-import optparse
 import json
+import optparse
 
-from ansible.module_utils.common._collections_compat import Sequence
 from ansible.module_utils.basic import missing_required_lib
+from ansible.module_utils.common._collections_compat import Sequence
+
 
 try:
-    from pyang import plugin, error
+    from pyang import error, plugin
 
     HAS_PYANG = True
 except ImportError:
@@ -47,7 +49,7 @@ class SampleJSONSkeletonPlugin(plugin.PyangPlugin):
             ),
         ]
         g = optparser.add_option_group(
-            "Sample-json-skeleton output specific options"
+            "Sample-json-skeleton output specific options",
         )
         g.add_options(optlist)
 
@@ -60,17 +62,17 @@ class SampleJSONSkeletonPlugin(plugin.PyangPlugin):
 
     def emit(self, ctx, modules, fd):
         """Main control function."""
-        for (epos, etag, eargs) in ctx.errors:
+        for epos, etag, eargs in ctx.errors:
             if error.is_error(error.err_level(etag)):
                 raise error.EmitError(
-                    "sample-json-skeleton plugin needs a valid module"
+                    "sample-json-skeleton plugin needs a valid module",
                 )
         tree = {}
         self.defaults = ctx.opts.sample_defaults
         self.doctype = ctx.opts.doctype
         if self.doctype not in ("config", "data"):
             raise error.EmitError(
-                "Unsupported document type: %s" % self.doctype
+                "Unsupported document type: %s" % self.doctype,
             )
 
         for module in modules:
@@ -105,11 +107,7 @@ class SampleJSONSkeletonPlugin(plugin.PyangPlugin):
             elif ch.keyword == "leaf":
                 if ch.arg == "keepalive-interval":
                     pass
-                ndata = (
-                    str(ch.i_default)
-                    if (self.defaults and ch.i_default is not None)
-                    else ""
-                )
+                ndata = str(ch.i_default) if (self.defaults and ch.i_default is not None) else ""
             elif ch.keyword == "leaf-list":
                 ndata = (
                     to_list(str(ch.i_default))

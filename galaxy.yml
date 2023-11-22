@@ -10,4 +10,4 @@ namespace: ansible
 readme: README.md
 repository: https://github.com/ansible-collections/ansible.yang
 tags: [networking, security, cloud, network_cli, netconf, httpapi, grpc]
-version: "1.2.0"
+version: "1.2.1"
