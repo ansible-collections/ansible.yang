@@ -11,7 +11,7 @@ v1.2.1
 Release Summary
 ---------------
 
-Re-releasing version 1.2.1.
+Re-releasing version 1.2.0, as 1.2.1.
 
 v1.2.0
 ======
