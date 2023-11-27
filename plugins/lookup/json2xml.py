@@ -85,9 +85,6 @@ from ansible_collections.ansible.yang.plugins.common.base import JSON2XML_DIR_PA
 from ansible_collections.ansible.yang.plugins.module_utils.translator import Translator
 
 
-PYANG_IMPORT_ERROR = None
-
-
 display = Display()
 
 
@@ -102,16 +99,12 @@ class LookupModule(LookupBase):
         display.vvvv(msg)
 
     def run(self, terms, variables, **kwargs):
-        global PYANG_IMPORT_ERROR
         try:
             importlib.import_module("pyang")
         except ImportError as imp_exc:
-            PYANG_IMPORT_ERROR = imp_exc
-
-        if PYANG_IMPORT_ERROR:
             raise_from(
                 AnsibleLookupError("pyang must be installed to use this plugin"),
-                PYANG_IMPORT_ERROR,
+                imp_exc,
             )
 
         res = []
