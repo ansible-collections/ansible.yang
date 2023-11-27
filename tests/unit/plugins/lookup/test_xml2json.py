@@ -69,16 +69,21 @@ class TestValidate(unittest.TestCase):
             "yang_file": OC_INTF_YANG_FILE_PATH,
             "search_path": YANG_FILE_SEARCH_PATH,
         }
+        print(kwargs)
         result = self._lp.run(terms, variables, **kwargs)
         self.assertEqual(
             result[0]["openconfig-interfaces:interfaces"]["interface"][0]["name"],
             "GigabitEthernet0/0/0/2",
         )
         self.assertEqual(
-            result[0]["openconfig-interfaces:interfaces"]["interface"][0]["config"]["mtu"],
+            result[0]["openconfig-interfaces:interfaces"]["interface"][0]["config"][
+                "mtu"
+            ],
             1024,
         )
         self.assertEqual(
-            result[0]["openconfig-interfaces:interfaces"]["interface"][0]["config"]["description"],
+            result[0]["openconfig-interfaces:interfaces"]["interface"][0]["config"][
+                "description"
+            ],
             "configured by Ansible yang collection",
         )
