@@ -60,6 +60,8 @@ class TestValidate(unittest.TestCase):
             str(error.exception),
         )
 
+    # commented out due to CI failures around install dependencies
+
     # def test_valid_xml2json_data(self):
     #     """Check passing valid data as per criteria"""
 
