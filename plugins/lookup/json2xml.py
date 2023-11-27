@@ -103,11 +103,10 @@ class LookupModule(LookupBase):
 
     def run(self, terms, variables, **kwargs):
         global PYANG_IMPORT_ERROR
-        for module in ["pyang"]:
-            try:
-                importlib.import_module(module)
-            except ImportError as imp_exc:
-                PYANG_IMPORT_ERROR = imp_exc
+        try:
+            importlib.import_module("pyang")
+        except ImportError as imp_exc:
+            PYANG_IMPORT_ERROR = imp_exc
 
         if PYANG_IMPORT_ERROR:
             raise_from(

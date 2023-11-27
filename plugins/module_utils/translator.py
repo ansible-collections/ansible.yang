@@ -8,6 +8,7 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 import glob
+import importlib
 import json
 import os
 import re
@@ -29,13 +30,6 @@ from ansible_collections.ansible.yang.plugins.module_utils.common import (
     to_list,
 )
 
-
-# try:
-#     import pyang  # noqa
-
-#     HAS_PYANG = True
-# except ImportError:
-#     HAS_PYANG = False
 
 try:
     from lxml import etree
@@ -100,8 +94,10 @@ class Translator(object):
         self._search_path = abs_search_path
 
     def _set_pyang_executables(self):
-        # if not HAS_PYANG:
-        #     raise ValueError(missing_required_lib("pyang"))
+        try:
+            importlib.import_module("pyang")
+        except ImportError as excp:
+            raise ValueError(missing_required_lib("pyang")) from excp
         if not HAS_LXML:
             raise ValueError(missing_required_lib("lxml"))
         try:
