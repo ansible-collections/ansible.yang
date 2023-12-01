@@ -71,26 +71,18 @@ _raw:
     description: The translated xml string from json
 """
 
+import importlib
 import json
 import os
 
 from ansible.errors import AnsibleLookupError
-
-# from ansible.module_utils.six import raise_from
 from ansible.module_utils._text import to_text
+from ansible.module_utils.six import raise_from
 from ansible.plugins.lookup import LookupBase
 from ansible.utils.display import Display
 
 from ansible_collections.ansible.yang.plugins.common.base import JSON2XML_DIR_PATH, create_tmp_dir
 from ansible_collections.ansible.yang.plugins.module_utils.translator import Translator
-
-
-# try:
-#     import pyang  # noqa
-# except ImportError as imp_exc:
-#     PYANG_IMPORT_ERROR = imp_exc
-# else:
-#     PYANG_IMPORT_ERROR = None
 
 
 display = Display()
@@ -107,11 +99,13 @@ class LookupModule(LookupBase):
         display.vvvv(msg)
 
     def run(self, terms, variables, **kwargs):
-        # if PYANG_IMPORT_ERROR:
-        #     raise_from(
-        #         AnsibleLookupError("pyang must be installed to use this plugin"),
-        #         PYANG_IMPORT_ERROR,
-        #     )
+        try:
+            importlib.import_module("pyang")
+        except ImportError as imp_exc:
+            raise_from(
+                AnsibleLookupError("pyang must be installed to use this plugin"),
+                imp_exc,
+            )
 
         res = []
         try:

@@ -9,6 +9,7 @@ __metaclass__ = type
 
 import errno
 import glob
+import importlib
 import json
 import os
 import shutil
@@ -44,8 +45,10 @@ class GenerateSpec(object):
         keep_tmp_files=False,
         tmp_dir_path=YANG_SPEC_DIR_PATH,
     ):
-        # if not HAS_PYANG:
-        #     raise ImportError(missing_required_lib("pyang"))
+        try:
+            importlib.import_module("pyang")
+        except ImportError as excp:
+            raise ValueError(missing_required_lib("pyang")) from excp
 
         yang_file_path = to_list(yang_file_path) if yang_file_path else []
         self._yang_file_path = []
