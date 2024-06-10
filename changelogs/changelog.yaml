@@ -3,51 +3,61 @@ releases:
   1.0.0:
     changes:
       major_changes:
-        - Add modules get, fetch, configure, generate_spec to ansible.yang collections.
-        - Added configure module to push json format configuration on to remote host
-          over netconf connection.
+      - Add modules get, fetch, configure, generate_spec to ansible.yang collections.
+      - Added configure module to push json format configuration on to remote host
+        over netconf connection.
     fragments:
-      - add_ansible_yangmodules.yaml
-      - yang_configure_module.yaml
-    release_date: "2022-04-28"
+    - add_ansible_yangmodules.yaml
+    - yang_configure_module.yaml
+    release_date: '2022-04-28'
   1.1.0:
     changes:
       bugfixes:
-        - Fixed json2xml py3 compatibility issues (https://github.com/ansible-collections/community.yang/pull/45)
-        - Sort yang_files to address dependency issue (https://github.com/ansible-collections/community.yang/pull/46)
+      - Fixed json2xml py3 compatibility issues (https://github.com/ansible-collections/community.yang/pull/45)
+      - Sort yang_files to address dependency issue (https://github.com/ansible-collections/community.yang/pull/46)
       minor_changes:
-        - Added unit test for xml2json, json2xml and spec lookup plugins (https://github.com/ansible-collections/community.yang/pull/50)
-        - Refactored module_utils to fix ansible-test sanity issues (https://github.com/ansible-collections/community.yang/pull/50)
-        - added optional attribute for fetch action to continue if it hits a module
-          that cannot be found
-        - community.yang.configure - Since ``configure`` module is built on top of ``netconf_config``
-          we add a new option argument, ``netconf_options``, allowing passing options
-          directly to ``netconf_config``.
+      - Added unit test for xml2json, json2xml and spec lookup plugins (https://github.com/ansible-collections/community.yang/pull/50)
+      - Refactored module_utils to fix ansible-test sanity issues (https://github.com/ansible-collections/community.yang/pull/50)
+      - added optional attribute for fetch action to continue if it hits a module
+        that cannot be found
+      - community.yang.configure - Since ``configure`` module is built on top of ``netconf_config``
+        we add a new option argument, ``netconf_options``, allowing passing options
+        directly to ``netconf_config``.
     fragments:
-      - 54-remove_tests_sanity_requirements.yml
-      - 58-add_netconf_options.yml
-      - fix-sanity-ansible-doc.yaml
-    release_date: "2023-11-21"
+    - 54-remove_tests_sanity_requirements.yml
+    - 58-add_netconf_options.yml
+    - fix-sanity-ansible-doc.yaml
+    release_date: '2023-11-21'
   1.2.0:
     changes:
       release_summary: Releasing version 1.2.0, featuring various maintenance updates.
-    release_date: "2023-11-22"
+    release_date: '2023-11-22'
   1.2.1:
     changes:
       release_summary: Re-releasing version 1.2.0, as 1.2.1.
-    release_date: "2023-11-22"
+    release_date: '2023-11-22'
   2.0.0:
     changes:
       bugfixes:
-        - Update bindep dependencies, and improve pyang import checks.
+      - Update bindep dependencies, and improve pyang import checks.
       major_changes:
-        - Bumping `requires_ansible` to `>=2.14.0`, since previous ansible-core versions
-          are EoL now.
-      release_summary:
-        Starting from this release, the minimum `ansible-core` version
+      - Bumping `requires_ansible` to `>=2.14.0`, since previous ansible-core versions
+        are EoL now.
+      release_summary: Starting from this release, the minimum `ansible-core` version
         this collection requires is `2.14.0`. The last known version compatible with
         ansible-core<2.14 is `v1.2.1`.
     fragments:
-      - major_200.yml
-      - update_bindep.yml
-    release_date: "2023-12-01"
+    - major_200.yml
+    - update_bindep.yml
+    release_date: '2023-12-01'
+  3.0.0:
+    changes:
+      major_changes:
+      - Bumping `requires_ansible` to `>=2.15.0`, since previous ansible-core versions
+        are EoL now.
+      release_summary: 'Starting from this release, the minimum `ansible-core` version
+        this collection requires is `2.15.0`. The last known version compatible with
+        ansible-core<2.15 is v2.0.0.'
+    fragments:
+    - ming_215.yaml
+    release_date: '2024-06-10'
