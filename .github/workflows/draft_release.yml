@@ -19,8 +19,8 @@ env:
 
 jobs:
   update_release_draft:
-    uses: ansible/devtools/.github/workflows/push_network.yml@main
+    uses: ansible/ansible-content-actions/.github/workflows/draft_release.yaml@main
     with:
-      repo: ansible-collections/ansible.yang
+      repo: ${{ github.event.pull_request.head.repo.full_name }}
     secrets:
       BOT_PAT: ${{ secrets.BOT_PAT }}
