@@ -66,9 +66,9 @@ class GenerateSpec(object):
         self._handle_search_path(search_path)
 
     def __del__(self):
-        if not self._keep_tmp_files:
-            shutil.rmtree(self._tmp_dir_path, ignore_errors=True)
-        super(GenerateSpec, self).__del__()
+        if hasattr(self, '_keep_tmp_files') and not self._keep_tmp_files:
+            if hasattr(self, '_tmp_dir_path'):
+                shutil.rmtree(self._tmp_dir_path, ignore_errors=True)
 
     def _handle_yang_file_path(self, yang_files):
         if not yang_files:
@@ -155,7 +155,7 @@ class GenerateSpec(object):
                     os.path.realpath(os.path.expanduser(self._tmp_dir_path)),
                     ignore_errors=True,
                 )
-            raise ValueError("Error while generating skeleton xml file: %s" % e.output)
+            raise ValueError("Error while generating skeleton xml file: %s" % str(e))
         finally:
             err = sys.stdout.getvalue()
             if err and "error" in err.lower():
@@ -244,7 +244,7 @@ class GenerateSpec(object):
                     os.path.realpath(os.path.expanduser(self._tmp_dir_path)),
                     ignore_errors=True,
                 )
-            raise ValueError("Error while generating skeleton xml file: %s" % e.output)
+            raise ValueError("Error while generating skeleton xml file: %s" % str(e))
         finally:
             err = sys.stdout.getvalue()
             if err and "error" in err.lower():
@@ -332,7 +332,7 @@ class GenerateSpec(object):
                     os.path.realpath(os.path.expanduser(self._tmp_dir_path)),
                     ignore_errors=True,
                 )
-            raise ValueError("Error while generating skeleton json file: %s" % e.output)
+            raise ValueError("Error while generating skeleton json file: %s" % str(e))
         finally:
             err = sys.stdout.getvalue()
             if err and "error" in err.lower():
