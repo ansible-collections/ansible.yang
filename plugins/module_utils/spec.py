@@ -13,7 +13,6 @@ import importlib
 import json
 import os
 import shutil
-import subprocess
 import sys
 import uuid
 
@@ -22,7 +21,7 @@ from copy import deepcopy
 from ansible.module_utils.basic import missing_required_lib
 from io import StringIO
 
-from ansible_collections.ansible.yang.plugins.module_utils.common import find_file_in_path, to_list
+from ansible_collections.ansible.yang.plugins.module_utils.common import find_file_in_path, load_from_source, to_list
 
 
 # try:
@@ -61,6 +60,7 @@ class GenerateSpec(object):
         except Exception as exc:
             raise ValueError(missing_required_lib("pyang")) from exc
 
+        self._pyang_module = load_from_source(self._pyang_exec_path, "pyang")
         self._tmp_dir_path = tmp_dir_path
         self._handle_yang_file_path(yang_file_path)
         self._handle_search_path(search_path)
@@ -134,7 +134,7 @@ class GenerateSpec(object):
         )
         tree_tmp_file_path = os.path.realpath(os.path.expanduser(tree_tmp_file_path))
         # fill in the sys args before invoking pyang to retrieve tree structure
-        tree_cmd = [
+        sys.argv = [
             self._pyang_exec_path,
             "-f",
             "tree",
@@ -146,12 +146,7 @@ class GenerateSpec(object):
         ] + self._yang_file_path
 
         try:
-            subprocess.run(
-                tree_cmd,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                check=True,
-            )
+            self._pyang_module.run()
         except SystemExit:
             pass
         except Exception as e:
@@ -220,7 +215,7 @@ class GenerateSpec(object):
         )
         xml_tmp_file_path = os.path.realpath(os.path.expanduser(xml_tmp_file_path))
         # fill in the sys args before invoking pyang to retrieve xml skeleton
-        sample_xml_skeleton_cmd = [
+        sys.argv = [
             self._pyang_exec_path,
             "-f",
             "sample-xml-skeleton",
@@ -234,18 +229,13 @@ class GenerateSpec(object):
         ] + self._yang_file_path
 
         if defaults:
-            sample_xml_skeleton_cmd.append("--sample-xml-skeleton-defaults")
+            sys.argv.append("--sample-xml-skeleton-defaults")
 
         if annotations:
-            sample_xml_skeleton_cmd.append("--sample-xml-skeleton-annotations")
+            sys.argv.append("--sample-xml-skeleton-annotations")
 
         try:
-            subprocess.run(
-                sample_xml_skeleton_cmd,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                check=True,
-            )
+            self._pyang_module.run()
         except SystemExit:
             pass
         except Exception as e:
@@ -314,7 +304,7 @@ class GenerateSpec(object):
         )
         shutil.copy(plugin_file_src, self._tmp_dir_path)
         # fill in the sys args before invoking pyang to retrieve json skeleton
-        sample_json_skeleton_cmd = [
+        sys.argv = [
             self._pyang_exec_path,
             "--plugindir",
             self._tmp_dir_path,
@@ -330,15 +320,10 @@ class GenerateSpec(object):
         ] + self._yang_file_path
 
         if defaults:
-            sample_json_skeleton_cmd.append("--sample-json-skeleton-defaults")
+            sys.argv.append("--sample-json-skeleton-defaults")
 
         try:
-            subprocess.run(
-                sample_json_skeleton_cmd,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                check=True,
-            )
+            self._pyang_module.run()
         except SystemExit:
             pass
         except Exception as e:

@@ -13,7 +13,6 @@ import json
 import os
 import re
 import shutil
-import subprocess
 import sys
 import time
 import uuid
@@ -383,42 +382,34 @@ class Translator(object):
                     "Error while generating (xsl) intermediate file: %s" % err,
                 )
 
-        xsltproc_exec_path = find_file_in_path("xsltproc")
-        if not xsltproc_exec_path:
-            raise ValueError(
-                "xsltproc executable not found."
-                " Install 'libxml2-dev' and 'libxslt-dev' packages",
-            )
-
-        # fill in the sys args before invoking xsltproc
-        sys.argv = [
-            xsltproc_exec_path,
-            "-o",
-            json_file_path,
-            xsl_file_path,
-            xml_file_path,
-        ]
-
+        # Use lxml's XSLT support instead of calling xsltproc
         if self._debug:
             self._debug(
-                "Generating json data in temp file '%s' by executing command '%s'"
-                % (json_file_path, " ".join(sys.argv)),
+                "Generating json data in temp file '%s' using lxml XSLT"
+                % json_file_path,
             )
         time.sleep(5)
 
         try:
-            subprocess.run(sys.argv, check=False)
-        except SystemExit:
-            pass
+            # Parse the XSL and XML files
+            xsl_doc = etree.parse(xsl_file_path)
+            xml_doc = etree.parse(xml_file_path)
+
+            # Create the transform and apply it
+            transform = etree.XSLT(xsl_doc)
+            result = transform(xml_doc)
+
+            # Write the result to the JSON file
+            with open(json_file_path, "w") as f:
+                f.write(str(result))
+        except Exception as e:
+            if not self._keep_tmp_files:
+                shutil.rmtree(
+                    os.path.realpath(os.path.expanduser(tmp_dir_path)),
+                    ignore_errors=True,
+                )
+            raise ValueError("Error while translating to json: %s" % e)
         finally:
-            err = sys.stderr.getvalue()
-            if err and "error" in err.lower():
-                if not self._keep_tmp_files:
-                    shutil.rmtree(
-                        os.path.realpath(os.path.expanduser(tmp_dir_path)),
-                        ignore_errors=True,
-                    )
-                raise ValueError("Error while translating to json: %s" % err)
             sys.argv = saved_arg
             sys.stdout = saved_stdout
             sys.stderr = saved_stderr

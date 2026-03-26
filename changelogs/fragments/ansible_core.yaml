@@ -2,5 +2,5 @@
 minor_changes:
   - "updated minimum required ansible core version to 2.16"
 trivial:
-  - "fixed ansible-bad-import-from and ansible-bad-function errors for sanity"  
+  - "fixed ansible-bad-import-from and ansible-bad-function errors for sanity tests"  
   
