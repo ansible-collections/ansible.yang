@@ -20,7 +20,7 @@ import uuid
 from copy import deepcopy
 
 from ansible.module_utils.basic import missing_required_lib
-from ansible.module_utils.six import StringIO
+from io import StringIO
 
 from ansible_collections.ansible.yang.plugins.module_utils.common import find_file_in_path, to_list
 
@@ -146,10 +146,11 @@ class GenerateSpec(object):
         ] + self._yang_file_path
 
         try:
-            subprocess.check_output(
-                " ".join(tree_cmd),
+            subprocess.run(
+                tree_cmd,
+                stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
-                shell=True,
+                check=True,
             )
         except SystemExit:
             pass
@@ -239,10 +240,11 @@ class GenerateSpec(object):
             sample_xml_skeleton_cmd.append("--sample-xml-skeleton-annotations")
 
         try:
-            subprocess.check_output(
-                " ".join(sample_xml_skeleton_cmd),
+            subprocess.run(
+                sample_xml_skeleton_cmd,
+                stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
-                shell=True,
+                check=True,
             )
         except SystemExit:
             pass
@@ -331,10 +333,11 @@ class GenerateSpec(object):
             sample_json_skeleton_cmd.append("--sample-json-skeleton-defaults")
 
         try:
-            subprocess.check_output(
-                " ".join(sample_json_skeleton_cmd),
+            subprocess.run(
+                sample_json_skeleton_cmd,
+                stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
-                shell=True,
+                check=True,
             )
         except SystemExit:
             pass

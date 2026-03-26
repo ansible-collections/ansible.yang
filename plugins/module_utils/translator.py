@@ -13,15 +13,16 @@ import json
 import os
 import re
 import shutil
+import subprocess
 import sys
 import time
 import uuid
 
 from copy import deepcopy
+from io import StringIO
 
 from ansible.module_utils._text import to_text
 from ansible.module_utils.basic import missing_required_lib
-from ansible.module_utils.six import StringIO
 
 from ansible_collections.ansible.yang.plugins.module_utils.common import (
     find_file_in_path,
@@ -406,7 +407,7 @@ class Translator(object):
         time.sleep(5)
 
         try:
-            os.system(" ".join(sys.argv))
+            subprocess.run(sys.argv, check=False)
         except SystemExit:
             pass
         finally:

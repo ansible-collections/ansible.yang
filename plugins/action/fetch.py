@@ -16,7 +16,6 @@ from ansible.errors import AnsibleActionFail
 from ansible.module_utils import basic
 from ansible.module_utils._text import to_bytes, to_text
 from ansible.module_utils.connection import Connection
-from ansible.module_utils.six import iteritems
 from ansible.plugins.action import ActionBase
 from ansible.utils.path import makedirs_safe, unfrackpath
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.utils import (
@@ -161,7 +160,7 @@ class ActionModule(ActionBase):
             if dir_path:
                 yang_dir = unfrackpath(dir_path)
                 makedirs_safe(yang_dir)
-                for name, content in iteritems(result["fetched"]):
+                for name, content in result["fetched"].items():
                     file_path = os.path.join(yang_dir, "%s.yang" % name)
                     with open(file_path, "w+") as fp:
                         fp.write(content)
