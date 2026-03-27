@@ -1,1 +1,0 @@
-/Users/kodesairedhat.com/ansible.yang/CHANGELOG.rst
