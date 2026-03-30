@@ -71,7 +71,6 @@ import importlib
 
 from ansible.errors import AnsibleLookupError
 from ansible.module_utils._text import to_text
-from ansible.module_utils.six import raise_from
 from ansible.plugins.lookup import LookupBase
 from ansible.utils.display import Display
 
@@ -96,10 +95,7 @@ class LookupModule(LookupBase):
         try:
             importlib.import_module("pyang")
         except ImportError as excp:
-            raise_from(
-                AnsibleLookupError("pyang must be installed to use this plugin"),
-                excp,
-            )
+            raise AnsibleLookupError("pyang must be installed to use this plugin") from excp
 
         res = []
         try:
